@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         val etpassword = findViewById<EditText>(R.id.etPassword)
         val btnacceder = findViewById<Button>(R.id.btnAcceder)
 
+        //Añado el nuevo botón para acceder a tercera activity
+        val btnTercera = findViewById<Button>(R.id.Tercera)
+
         //Definimos el listener para el boton acceder
         btnacceder.setOnClickListener {
             //Creamos el objeto Intent para comunicarnos con la otra Activity
@@ -32,6 +35,15 @@ class MainActivity : AppCompatActivity() {
             intento1.putExtra("usuario",etusuario.text.toString())
             //Iniciamos la actividad
             startActivity(intento1)
+        }
+
+        //Agregó la funcionalidad al botón
+        btnTercera.setOnClickListener {
+            val intento2 = Intent(this@MainActivity, Tercera::class.java)
+            //Guardo el contenido de "etpassword" en la variable temporal "contraseña"
+            val contraseña = etpassword.text.toString()
+            intento2.putExtra("password", contraseña)
+            startActivity(intento2)
         }
     }
 }
