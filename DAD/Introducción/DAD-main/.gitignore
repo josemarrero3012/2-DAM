@@ -1,0 +1,57 @@
+# Visual Studio / MSBuild / .NET
+[Oo]bj/
+[Bb]in/
+[Ll]og/
+[Ll]ogs/
+[Tt]emp/
+[Tt]mp/
+packages/
+*.nupkg
+*.snupkg
+*.DotSettings.user
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.vscode/
+
+# Copias de seguridad y temporales
+*.bak
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tlog
+*.idb
+*.ncb
+*.aps
+
+# Publicación y perfiles
+*.pubxml
+*.publishsettings
+
+# Carpetas de análisis de código y diagnóstico
+_ReSharper.*/
+*.cache
+*.opendb
+*.opensdf
+.codestream/
+
+# Sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
