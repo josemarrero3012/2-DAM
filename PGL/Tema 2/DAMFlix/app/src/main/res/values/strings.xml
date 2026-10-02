@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">DAMFlix</string>
+    <string name="greeting">¡Bienvenido!</string>
+    <string name="label_avatar">Mi avatar</string>
+    <string name="nombre_usuario">José Manuel López Marrero</string>
+    <string name="rol">Crítico de Cine</string>
+    <string name="label_peliculas_vistas">Películas vistas</string>
+    <string name="stats_peliculas_vistas">359</string>
+    <string name="label_reseñas">Reseñas</string>
+    <string name="stats_reseñas">48</string>
+
+</resources>
