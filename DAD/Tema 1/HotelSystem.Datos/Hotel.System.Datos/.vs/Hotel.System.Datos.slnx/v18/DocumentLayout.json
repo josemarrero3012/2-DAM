@@ -1,0 +1,143 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DA3426CB-C3CC-4FC4-ABFB-783FE2D8744A}|HotelSystem.Console\\HotelSystem.Console.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotelsystem.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DA3426CB-C3CC-4FC4-ABFB-783FE2D8744A}|HotelSystem.Console\\HotelSystem.Console.csproj|solutionrelative:hotelsystem.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{282E3C01-532F-40E1-90BB-DB61952F7B20}|Hotel.System.Datos\\Hotel.System.Datos.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotel.system.datos\\habitacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{282E3C01-532F-40E1-90BB-DB61952F7B20}|Hotel.System.Datos\\Hotel.System.Datos.csproj|solutionrelative:hotel.system.datos\\habitacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{282E3C01-532F-40E1-90BB-DB61952F7B20}|Hotel.System.Datos\\Hotel.System.Datos.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotel.system.datos\\ihabitacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{282E3C01-532F-40E1-90BB-DB61952F7B20}|Hotel.System.Datos\\Hotel.System.Datos.csproj|solutionrelative:hotel.system.datos\\ihabitacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotelsystem.negocio\\hotelsystem.negocio.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|solutionrelative:hotelsystem.negocio\\hotelsystem.negocio.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotelsystem.negocio\\ireservamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|solutionrelative:hotelsystem.negocio\\ireservamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotelsystem.negocio\\reservamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B40F4ED-A1BE-40CA-BB51-088EA8FBEC27}|HotelSystem.Negocio\\HotelSystem.Negocio.csproj|solutionrelative:hotelsystem.negocio\\reservamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DA3426CB-C3CC-4FC4-ABFB-783FE2D8744A}|HotelSystem.Console\\HotelSystem.Console.csproj|c:\\users\\josem\\desktop\\2-dam\\dad\\tema 1\\hotelsystem.datos\\hotel.system.datos\\hotelsystem.console\\hotelsystem.console.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{DA3426CB-C3CC-4FC4-ABFB-783FE2D8744A}|HotelSystem.Console\\HotelSystem.Console.csproj|solutionrelative:hotelsystem.console\\hotelsystem.console.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HotelSystem.Console",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Console\\HotelSystem.Console.csproj",
+              "RelativeDocumentMoniker": "HotelSystem.Console\\HotelSystem.Console.csproj",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Console\\HotelSystem.Console.csproj",
+              "RelativeToolTip": "HotelSystem.Console\\HotelSystem.Console.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-01T13:01:43.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HotelSystem.Negocio",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\HotelSystem.Negocio.csproj",
+              "RelativeDocumentMoniker": "HotelSystem.Negocio\\HotelSystem.Negocio.csproj",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\HotelSystem.Negocio.csproj",
+              "RelativeToolTip": "HotelSystem.Negocio\\HotelSystem.Negocio.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-01T12:52:44.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Console\\Program.cs",
+              "RelativeDocumentMoniker": "HotelSystem.Console\\Program.cs",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Console\\Program.cs",
+              "RelativeToolTip": "HotelSystem.Console\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T12:58:55.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ReservaManager.cs",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\ReservaManager.cs",
+              "RelativeDocumentMoniker": "HotelSystem.Negocio\\ReservaManager.cs",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\ReservaManager.cs",
+              "RelativeToolTip": "HotelSystem.Negocio\\ReservaManager.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAYwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T12:54:47.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IReservaManager.cs",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\IReservaManager.cs",
+              "RelativeDocumentMoniker": "HotelSystem.Negocio\\IReservaManager.cs",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\HotelSystem.Negocio\\IReservaManager.cs",
+              "RelativeToolTip": "HotelSystem.Negocio\\IReservaManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T12:53:48.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HabitacionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\Hotel.System.Datos\\HabitacionRepository.cs",
+              "RelativeDocumentMoniker": "Hotel.System.Datos\\HabitacionRepository.cs",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\Hotel.System.Datos\\HabitacionRepository.cs",
+              "RelativeToolTip": "Hotel.System.Datos\\HabitacionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T12:50:07.298Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IHabitacionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\Hotel.System.Datos\\IHabitacionRepository.cs",
+              "RelativeDocumentMoniker": "Hotel.System.Datos\\IHabitacionRepository.cs",
+              "ToolTip": "C:\\Users\\josem\\Desktop\\2-DAM\\DAD\\Tema 1\\HotelSystem.Datos\\Hotel.System.Datos\\Hotel.System.Datos\\IHabitacionRepository.cs",
+              "RelativeToolTip": "Hotel.System.Datos\\IHabitacionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T12:47:51.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
