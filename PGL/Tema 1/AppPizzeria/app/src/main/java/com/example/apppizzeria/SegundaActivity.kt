@@ -29,7 +29,7 @@ class SegundaActivity : AppCompatActivity() {
         //creo variables independientes porque me interesa poder concatenarlos
         val nombre = datos?.getString("Nombre")
         val direccion = datos?.getString("Dirección")
-        val numPizzas = datos?.getInt("Nº pizzas")
+        val numPizzas = datos?.getString("Nº pizzas")
         val ingrediente = datos?.getString("Ingrediente estrella")
 
         tvNombreDireccion.text = "Nombre: $nombre Dirección: $direccion"

@@ -26,6 +26,6 @@ class TerceraActivity : AppCompatActivity() {
         val info = packageManager.getPackageInfo(packageName, 0)
 
         tvApp.text = app
-        tvVersion.text = info
+        tvVersion.text = info.versionName
     }
 }
