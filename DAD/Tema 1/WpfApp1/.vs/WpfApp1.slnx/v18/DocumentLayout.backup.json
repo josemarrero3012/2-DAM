@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|c:\\users\\jos\u00E9 manuel\\desktop\\2-dam\\dad\\tema 1\\wpfapp1\\wpfapp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|c:\\users\\jos\u00E9 manuel\\desktop\\2-dam\\dad\\tema 1\\wpfapp1\\wpfapp1\\saludoviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\saludoviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|c:\\users\\jos\u00E9 manuel\\desktop\\2-dam\\dad\\tema 1\\wpfapp1\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|c:\\users\\jos\u00E9 manuel\\desktop\\2-dam\\dad\\tema 1\\wpfapp1\\wpfapp1\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7CCFFB5F-8AC3-438C-A401-394FABF15977}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\App.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\App.xaml",
+              "ToolTip": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\App.xaml",
+              "RelativeToolTip": "WpfApp1\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-09T12:03:09.131Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SaludoViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\SaludoViewModel.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\SaludoViewModel.cs",
+              "ToolTip": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\SaludoViewModel.cs",
+              "RelativeToolTip": "WpfApp1\\SaludoViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T11:59:19.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-09T11:50:14.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Jos\u00E9 Manuel\\Desktop\\2-DAM\\DAD\\Tema 1\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T11:50:10.051Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfApp1"
+        Title="Ejemplo de Saludo MVVM"
+        Height="220" Width="320">
+
+    <!-- DataContext: Conectamos la ventana a la clase SaludoViewModel -->
+    <Window.DataContext>
+        <local:SaludoViewModel />
+    </Window.DataContext>
+
+    <!-- Contenedor principal Grid -->
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Center">
+
+            <TextBlock Text="Escribe tu nombre:" FontWeight="Bold"/>
+
+            <!-- Entrada de datos: vinculada a la propiedad Nombre -->
+            <TextBox Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
+                     Height="35" FontSize="16" VerticalContentAlignment="Center" Margin="0,5,0,15"/>
+
+            <TextBlock Text="Vista previa del usuario registrado:" FontWeight="Bold"/>
+
+            <!-- Salida de datos: conectada directamente a la misma propiedad Nombre -->
+            <TextBlock Text="{Binding Nombre}"
+                       FontSize="20" Foreground="DarkGreen" FontWeight="Bold" Margin="0,5,0,0"/>
+
+        </StackPanel>
+    </Grid>
+</Window>
