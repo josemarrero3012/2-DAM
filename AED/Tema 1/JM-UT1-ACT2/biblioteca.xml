@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<biblioteca>
+    <libro isbn="0349490304">
+        <titulo>Quijote</titulo>
+        <autor>Jose</autor>
+        <anioPublicacion>2025</anioPublicacion>
+    </libro>
+</biblioteca>
