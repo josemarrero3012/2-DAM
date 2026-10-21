@@ -1,0 +1,97 @@
+﻿<Window x:Class="WpfApp2.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WpfApp2.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="CorporateDir WPF" Height="500" Width="800"
+        Language="es-ES"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- NOTAS DE EXAMEN
+         - x:Class: tiene que coincidir con el namespace y la clase del code-behind.
+         - d:DataContext y xmlns:vm: SOLO sirven para que el editor sugiera nombres en los Binding.
+           NO crean el ViewModel (el DataContext real se asigna en MainWindow.xaml.cs).
+         - Language="es-ES": hace que el salario salga en euros y no en dolares. -->
+
+    <!-- PASO 2.3: Grid principal con 3 FILAS (estructura vertical) -->
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <!-- Auto = la fila mide lo que ocupa su contenido. * = ocupa todo el espacio que sobra. -->
+            <RowDefinition Height="Auto"/>   <!-- Fila 0: formulario -->
+            <RowDefinition Height="*"/>      <!-- Fila 1: listado -->
+            <RowDefinition Height="Auto"/>   <!-- Fila 2: barra de estado -->
+        </Grid.RowDefinitions>
+
+        <!-- FILA 0: Formulario horizontal dentro de un Border.
+             Grid.Row="0" indica en que fila del Grid va el elemento. -->
+        <Border Grid.Row="0" Background="#F4F4F6" CornerRadius="8"
+                Padding="12" Margin="0,0,0,12">
+            <!-- Orientation="Horizontal" coloca los controles uno al lado del otro -->
+            <StackPanel Orientation="Horizontal">
+
+                <Label Content="Nombre:" VerticalAlignment="Center"/>
+                <!-- Text enlazado a NuevoNombre.
+                     UpdateSourceTrigger=PropertyChanged: actualiza la propiedad en cada tecla.
+                     Sin esto, el boton no se activa hasta que el cuadro pierde el foco. -->
+                <TextBox Text="{Binding NuevoNombre, UpdateSourceTrigger=PropertyChanged}"
+                         Width="170" Padding="5" Margin="0,0,12,0"/>
+
+                <Label Content="Departamento:" VerticalAlignment="Center"/>
+                <!-- ItemsSource = la lista de opciones (Departamentos).
+                     SelectedItem = donde se guarda la opcion elegida (NuevoDepartamento). -->
+                <ComboBox ItemsSource="{Binding Departamentos}"
+                          SelectedItem="{Binding NuevoDepartamento}"
+                          Width="120" Padding="5" Margin="0,0,12,0"/>
+
+                <!-- IsChecked enlazado a NuevoActivo (marcado = jornada completa) -->
+                <CheckBox Content="Jornada completa"
+                          IsChecked="{Binding NuevoActivo}"
+                          VerticalAlignment="Center" Margin="0,0,12,0"/>
+
+                <!-- Command enlazado al comando generado por [RelayCommand] (AgregarEmpleadoCommand).
+                     No hay evento Click: el boton se desactiva solo gracias a CanExecute. -->
+                <Button Content="Agregar"
+                        Command="{Binding AgregarEmpleadoCommand}"
+                        Padding="14,6" Background="#007ACC"
+                        Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <!-- FILA 1: Listado principal (ListView con GridView).
+             ItemsSource = coleccion de empleados. SelectedItem = fila elegida. -->
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding Empleados}"
+                  SelectedItem="{Binding EmpleadoSeleccionado}">
+            <ListView.View>
+                <GridView>
+                    <!-- Cada columna muestra una propiedad de Empleado con DisplayMemberBinding.
+                         El Binding usa el nombre de la propiedad de la clase Empleado. -->
+                    <GridViewColumn Header="ID" Width="40"
+                                    DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Nombre" Width="180"
+                                    DisplayMemberBinding="{Binding Nombre}"/>
+                    <GridViewColumn Header="Departamento" Width="130"
+                                    DisplayMemberBinding="{Binding Departamento}"/>
+                    <!-- StringFormat={}{0:C} muestra el numero como moneda (C = Currency).
+                         Las llaves vacias {} al principio son un escape obligatorio. -->
+                    <GridViewColumn Header="Salario" Width="110"
+                                    DisplayMemberBinding="{Binding Salario, StringFormat={}{0:C}}"/>
+                    <GridViewColumn Header="Jornada" Width="100"
+                                    DisplayMemberBinding="{Binding JornadaCompleta}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- FILA 2: Barra de estado. Un TextBlock con dos Run (fragmentos con distinto formato). -->
+        <TextBlock Grid.Row="2" Margin="0,10,0,0" FontWeight="SemiBold">
+            <Run Text="Seleccionado: "/>
+            <!-- Se enlaza a EmpleadoSeleccionado.Nombre (propiedad de la fila elegida).
+                 FallbackValue = lo que se muestra si no hay nada seleccionado (null). -->
+            <Run Text="{Binding EmpleadoSeleccionado.Nombre, FallbackValue='Ninguno'}"
+                 Foreground="#007ACC" FontWeight="Bold"/>
+        </TextBlock>
+    </Grid>
+</Window>
