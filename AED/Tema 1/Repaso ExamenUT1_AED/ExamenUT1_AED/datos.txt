@@ -1,0 +1,4 @@
+Juan Pérez,30,juan.perez@email.com
+María Gómez,25,maria.gomez@email.com
+Carlos López,42,carlos.lopez@email.com
+Ana Martínez,28,ana.martinez@email.com

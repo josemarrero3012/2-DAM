@@ -1,0 +1,19 @@
+{
+  "listaPersonas" : [ {
+    "nombre" : "Juan Pérez",
+    "edad" : 30,
+    "email" : "juan.perez@email.com"
+  }, {
+    "nombre" : "María Gómez",
+    "edad" : 25,
+    "email" : "maria.gomez@email.com"
+  }, {
+    "nombre" : "Carlos López",
+    "edad" : 42,
+    "email" : "carlos.lopez@email.com"
+  }, {
+    "nombre" : "Ana Martínez",
+    "edad" : 28,
+    "email" : "ana.martinez@email.com"
+  } ]
+}

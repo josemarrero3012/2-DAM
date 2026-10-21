@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<personas>
+    <persona>
+        <nombre>Juan Pérez</nombre>
+        <edad>30</edad>
+        <email>juan.perez@email.com</email>
+    </persona>
+    <persona>
+        <nombre>María Gómez</nombre>
+        <edad>25</edad>
+        <email>maria.gomez@email.com</email>
+    </persona>
+    <persona>
+        <nombre>Carlos López</nombre>
+        <edad>42</edad>
+        <email>carlos.lopez@email.com</email>
+    </persona>
+    <persona>
+        <nombre>Ana Martínez</nombre>
+        <edad>28</edad>
+        <email>ana.martinez@email.com</email>
+    </persona>
+</personas>
