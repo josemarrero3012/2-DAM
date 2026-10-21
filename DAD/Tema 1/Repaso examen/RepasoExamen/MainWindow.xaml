@@ -1,0 +1,146 @@
+﻿<Window x:Class="RepasoExamen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RepasoExamen"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Formulario para añadir un libro -->
+        <Border Grid.Column="0"
+                Background="#F4F4F6"
+                Padding="15"
+                Margin="0,0,15,0">
+            <StackPanel>
+                <TextBlock Text="Añadir libro"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Margin="0,0,0,15"/>
+
+                <Label Content="Título:"/>
+                <TextBox Text="{Binding NuevoTitulo,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,8"
+                         Padding="5"/>
+
+                <Label Content="Autor:"/>
+                <TextBox Text="{Binding NuevoAutor,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,8"
+                         Padding="5"/>
+
+                <Label Content="Año de publicación:"/>
+                <TextBox Text="{Binding NuevoAnioPublicacion,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,8"
+                         Padding="5"/>
+
+                <Label Content="Género:"/>
+                <ComboBox ItemsSource="{Binding Generos}"
+                          SelectedItem="{Binding NuevoGenero}"
+                          Margin="0,0,0,8"
+                          Padding="5"/>
+
+                <CheckBox Content="Disponible"
+                          IsChecked="{Binding NuevoDisponible}"
+                          Margin="0,8,0,18"/>
+
+                <Button Content="Añadir libro"
+                        Command="{Binding AgregarLibroCommand}"
+                        Padding="8"
+                        Background="#007ACC"
+                        Foreground="White"
+                        FontWeight="Bold"/>
+                
+                <Button Content="Cargar libros disponibles"
+                        Command="{Binding ObtenerLibrosDisponiblesCommand}"
+                        Padding="8"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Lista de libros -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Catálogo"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
+
+            <TabControl Grid.Row="1">
+                <TabItem Header="Todos">
+                    <ListView ItemsSource="{Binding Libros}"
+                  SelectedItem="{Binding LibroSeleccionado}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID"
+                                    DisplayMemberBinding="{Binding Id}"
+                                    Width="40"/>
+                                <GridViewColumn Header="Título"
+                                    DisplayMemberBinding="{Binding Titulo}"
+                                    Width="170"/>
+                                <GridViewColumn Header="Autor"
+                                    DisplayMemberBinding="{Binding Autor}"
+                                    Width="150"/>
+                                <GridViewColumn Header="Año"
+                                    DisplayMemberBinding="{Binding AnioPublicacion}"
+                                    Width="60"/>
+                                <GridViewColumn Header="Género"
+                                    DisplayMemberBinding="{Binding Genero}"
+                                    Width="120"/>
+                                <GridViewColumn Header="Disponible"
+                                    DisplayMemberBinding="{Binding Disponible}"
+                                    Width="80"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+
+                <TabItem Header="Disponibles">
+                    <ListView ItemsSource="{Binding LibrosDisponibles}"
+                  SelectedItem="{Binding LibroSeleccionado}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID"
+                                    DisplayMemberBinding="{Binding Id}"
+                                    Width="40"/>
+                                <GridViewColumn Header="Título"
+                                    DisplayMemberBinding="{Binding Titulo}"
+                                    Width="170"/>
+                                <GridViewColumn Header="Autor"
+                                    DisplayMemberBinding="{Binding Autor}"
+                                    Width="150"/>
+                                <GridViewColumn Header="Año"
+                                    DisplayMemberBinding="{Binding AnioPublicacion}"
+                                    Width="60"/>
+                                <GridViewColumn Header="Género"
+                                    DisplayMemberBinding="{Binding Genero}"
+                                    Width="120"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+
+            <TextBlock Grid.Row="2"
+                       Margin="0,10,0,0"
+                       FontWeight="SemiBold"
+                       Text="{Binding LibroSeleccionado.Titulo,
+                                      TargetNullValue=Ninguno,
+                                      FallbackValue=Ninguno,
+                                      StringFormat=Seleccionado: {0}}"/>
+        </Grid>
+    </Grid>
+</Window>

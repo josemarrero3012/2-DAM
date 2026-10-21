@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WpfApp1",
+    "\\WpfApp1\\Models",
+    "\\WpfApp1\\Services",
+    "\\WpfApp1\\ViewModels"
+  ],
+  "SelectedNode": "\\WpfApp1\\Services\\IEmpleadoService.cs",
+  "PreviewInSolutionExplorer": false
+}
