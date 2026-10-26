@@ -46,7 +46,7 @@ fun PerfilScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .border(3.dp, Color.Black, CircleShape)//.border(3.dp, MaterialTheme.colorScheme.primary, CircleShape) en caso de querer coger el color primario de la app
+                .border(3.dp, Color(0xBF118493), CircleShape)//.border(3.dp, MaterialTheme.colorScheme.primary, CircleShape) en caso de querer coger el color primario de la app
         )
         Spacer(modifier = Modifier.height(16.dp)) //deja un espacio de 16 unidades con el siguiente elemento
 
@@ -73,7 +73,7 @@ fun PerfilScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.perfil_stat_vistas_valor),
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color(0xBF118493),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -88,7 +88,7 @@ fun PerfilScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.perfil_stat_resenas_valor),
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color(0xBF118493),
                     fontWeight = FontWeight.Bold
                 )
                 Text(

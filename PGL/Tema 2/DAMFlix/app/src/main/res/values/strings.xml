@@ -10,7 +10,7 @@
     <string name="bienvenida_titulo">¡Bienvenida a DAMFlix!</string>
     <string name="bienvenida_texto">Tu diario personal de cine: registra las películas que has visto, las que tienes pendientes y tus favoritas.</string>
 
-    <!--- ===== FASE 2: Formulario de alta ===== -->
+    <!-- Fase 2 Formulario -->
     <string name="form_titulo_pantalla">Nueva película</string>
     <string name="form_label_titulo">Título de la película</string>
     <string name="form_label_director">Director/a</string>
@@ -18,4 +18,10 @@
     <string name="form_check_vista">Ya he visto esta película</string>
     <string name="form_btn_guardar">Guardar película</string>
     <string name="form_msg_guardada">Película «%1$s» guardada</string>
+
+    <!-- Fase 3 Catálogo de películas -->
+    <string name="catalogo_titulo">DAMFlix - Catálogo</string>
+    <string name="catalogo_subtitulo">%1$s • %2$d</string> <!--"%1$s" primer argumento de tipo string y "%2$d" segundo argumento de tipo entero (decimal) -->
+    <string name="catalogo_marcar_favorita">Marcar como favorita</string>
+    <string name="catalogo_desmarcar_favorita">Quitar de favoritas</string>
 </resources>
