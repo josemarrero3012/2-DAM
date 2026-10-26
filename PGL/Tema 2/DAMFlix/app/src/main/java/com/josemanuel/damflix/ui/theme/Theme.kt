@@ -1,4 +1,4 @@
-package com.example.damflix.ui.theme
+package com.josemanuel.damflix.ui.theme
 
 import android.app.Activity
 import android.os.Build

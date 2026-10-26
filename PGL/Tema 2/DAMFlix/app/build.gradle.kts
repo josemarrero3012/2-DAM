@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.damflix"
+    namespace = "com.josemanuel.damflix"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.damflix"
+        applicationId = "com.josemanuel.damflix"
         minSdk = 24
         targetSdk = 37
         versionCode = 1

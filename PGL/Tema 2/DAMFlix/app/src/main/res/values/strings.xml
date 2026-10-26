@@ -1,13 +1,21 @@
 <resources>
-
     <string name="app_name">DAMFlix</string>
-    <string name="greeting">¡Bienvenido!</string>
-    <string name="label_avatar">Mi avatar</string>
-    <string name="nombre_usuario">José Manuel López Marrero</string>
-    <string name="rol">Crítico de Cine</string>
-    <string name="label_peliculas_vistas">Películas vistas</string>
-    <string name="stats_peliculas_vistas">359</string>
-    <string name="label_resenas">Reseñas</string>
-    <string name="stats_resenas">48</string>
+    <string name="perfil_avatar_desc">Foto de perfil del usuario</string>
+    <string name="perfil_nombre">José Manuel</string>
+    <string name="perfil_rol">Crítica de cine</string>
+    <string name="perfil_stat_vistas_valor">42</string>
+    <string name="perfil_stat_vistas_label">Películas vistas</string>
+    <string name="perfil_stat_resenas_valor">12</string>
+    <string name="perfil_stat_resenas_label">Reseñas</string>
+    <string name="bienvenida_titulo">¡Bienvenida a DAMFlix!</string>
+    <string name="bienvenida_texto">Tu diario personal de cine: registra las películas que has visto, las que tienes pendientes y tus favoritas.</string>
 
+    <!--- ===== FASE 2: Formulario de alta ===== -->
+    <string name="form_titulo_pantalla">Nueva película</string>
+    <string name="form_label_titulo">Título de la película</string>
+    <string name="form_label_director">Director/a</string>
+    <string name="form_label_año">Año de estreno</string>
+    <string name="form_check_vista">Ya he visto esta película</string>
+    <string name="form_btn_guardar">Guardar película</string>
+    <string name="form_msg_guardada">Película «%1$s» guardada</string>
 </resources>

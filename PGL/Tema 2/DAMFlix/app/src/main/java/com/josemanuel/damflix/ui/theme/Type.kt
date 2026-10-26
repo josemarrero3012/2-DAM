@@ -1,4 +1,4 @@
-package com.example.damflix.ui.theme
+package com.josemanuel.damflix.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

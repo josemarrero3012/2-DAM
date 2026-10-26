@@ -1,4 +1,4 @@
-package com.example.damflix
+package com.josemanuel.damflix
 
 import org.junit.Test
 
