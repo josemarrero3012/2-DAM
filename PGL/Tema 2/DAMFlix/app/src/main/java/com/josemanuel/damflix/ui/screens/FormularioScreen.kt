@@ -29,58 +29,66 @@ import androidx.compose.ui.unit.dp
 import com.josemanuel.damflix.R
 import com.josemanuel.damflix.ui.theme.DAMFlixTheme
 
+/*Requisitos Funcionales:
+1) Campos de Entrada: Crear un formulario con campos para el Título de la
+película, Director/a y Año de estreno con OutlinedTextField.
+2) Selección e Interacción: Incluir un Checkbox para indicar si la película ya ha
+sido vista o está pendiente.
+.
+3) Gestión de Estado: Guardar el contenido de los campos mediante remember y
+mutableStateOf.
+4) Validación Dinámica: El botón "Guardar Película" debe permanecer
+deshabilitado si el título o director están vacíos.*/
+
 @Composable
 fun FormularioScreen(modifier: Modifier = Modifier) {
 
-    //===== ESTADO =====
+    //Estado de las variables
     //remember: conserva el valor entre recomposiciones
     //mutableStateOf: hace que Compose se entere cuando el valor cambia
     //by: permite usar la variable como un String normal (sin .value)
-    var titulo by remember { mutableStateOf("") }      // texto del campo Título
-    var director by remember { mutableStateOf("") }    // texto del campo Director/a
-    var anio by remember { mutableStateOf("") }        // texto del campo Año (String, porque un campo de texto siempre es texto)
-    var esVista by remember { mutableStateOf(false) }  // checkbox: false = pendiente, true = vista
+    var titulo by remember { mutableStateOf("") }
+    var director by remember { mutableStateOf("") }
+    var año by remember { mutableStateOf("") }
+    var peliculaVista by remember { mutableStateOf(false) } //checkbox: false = pendiente, true = vista
 
-    //===== VALIDACIÓN =====
-    //es true solo si el título y el director tienen texto (isNotBlank ignora los espacios en blanco).
-    //se recalcula con cada tecla que se escribe, porque el estado cambia y se recompone.
+    //Validaciones (creo variables para las validaciones)
+    //el botón "Guardar Película" debe permanecer deshabilitado si el título o director están vacíos
+
+    //entonces creo una variable que diga si el formulario es válido o no, si el campo de titulo o director está vacío, no es válido
     val formularioValido = titulo.isNotBlank() && director.isNotBlank()
 
     //toast necesita el context de android para mostrarse
     val context = LocalContext.current
 
-    // Mensaje de confirmación leído de strings.xml; %1$s se sustituye por el título.
+    //mensaje de confirmación leído de strings.xml; %1$s se sustituye por el título.
     // Se lee aquí (fuera del onClick) porque stringResource solo se puede usar en el cuerpo de una composable.
-    val mensajeGuardada = stringResource(R.string.form_msg_guardada, titulo)
+    val mensajePeliculaGuardada = stringResource(R.string.form_msg_guardada, titulo)
 
-    // ===== INTERFAZ =====
-    // Columna principal: todo el contenido, uno debajo de otro
+    //Interfaz
     Column(
         modifier = modifier
             .fillMaxSize()   // ocupa toda la pantalla
-            .padding(24.dp)  // margen interior de 24 dp
+            .padding(80.dp)  // margen interior de 24 dp
     ) {
         // Título de la pantalla ("Nueva película")
         Text(
             text = stringResource(R.string.form_titulo_pantalla),
             style = MaterialTheme.typography.headlineSmall
         )
-
-        // Hueco vertical de 16 dp
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo: Título
+        // Campo: título, el ejercicio pide usar OutlinedTextField
         OutlinedTextField(
-            value = titulo,                       // lo que muestra el campo (el estado)
-            onValueChange = { titulo = it },      // al escribir, guarda el nuevo texto (it) en el estado
-            label = { Text(text = stringResource(R.string.form_label_titulo)) }, // etiqueta flotante
-            singleLine = true,                    // una sola línea
+            value = titulo, // lo que muestra el campo antes de escribir, var si hubiera escrito "titulo by remember { mutableStateOf("hola") }" pues aparecería "hola" en el campo
+            onValueChange = { titulo = it }, // al escribir, guarda el nuevo texto (it) en el estado
+            label = { Text(text = stringResource(R.string.form_label_titulo)) }, // la etiqueta flotante que hay justo encima del campo
+            singleLine = true, // con esto evito que se pueda hacer un salto de linea dentro del propio campo, es decir, solo se puede escribir horizontalmente
             modifier = Modifier
-                .fillMaxWidth()                   // a todo el ancho
-                .padding(vertical = 4.dp)         // 4 dp arriba y abajo para separar los campos
+                .fillMaxWidth()// a todo el ancho
+                .padding(vertical = 4.dp)// 4 dp arriba y abajo para separar los campos
         )
 
-        // Campo: Director/a (igual que el anterior, pero con su propio estado)
+        //campo director
         OutlinedTextField(
             value = director,
             onValueChange = { director = it },
@@ -91,52 +99,51 @@ fun FormularioScreen(modifier: Modifier = Modifier) {
                 .padding(vertical = 4.dp)
         )
 
-        // Campo: Año de estreno
+        //campo año de estreno
         OutlinedTextField(
-            value = anio,
-            onValueChange = { anio = it },
+            value = año,
+            onValueChange = { año = it },
             label = { Text(text = stringResource(R.string.form_label_año)) },
             singleLine = true,
-            // Abre el teclado numérico en lugar del normal
+            //me interesa que solo se pueda abrir el teclado numérico, esto lo consigo con KeyboardOptions
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
         )
 
-        // Fila con el checkbox y su texto, centrados verticalmente entre sí
+        //fila con el checkbox y su texto, centrados verticalmente entre sí, me interesa para que salga el cuadro del checkbox, y justo a su derecha, el texto "Ya he visto esta película"
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = esVista,                  // marcado o no según el estado
-                onCheckedChange = { esVista = it }  // al pulsar, guarda el nuevo valor (true/false)
+                checked = peliculaVista, //lee el estado (comienza en false). Cambia a true si hago click en el checbox y se marca
+                onCheckedChange = { peliculaVista = it }  //guardar el nuevo estado en la variable peliculaVista
             )
             Text(text = stringResource(R.string.form_check_vista))
         }
 
-        // Hueco vertical antes del botón
+        //hueco vertical antes del botón
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Botón "Guardar película"
+        //botón para guardar la película
         Button(
-            // Código que se ejecuta al pulsar el botón
-            onClick = {
-                // Muestra un mensaje breve de confirmación
+            onClick = { //al hacer click...
+                //muestra un mensaje breve de confirmación
                 Toast.makeText(
                     context,
-                    mensajeGuardada,
-                    Toast.LENGTH_SHORT
+                    mensajePeliculaGuardada, //esta variable la declaré arriba en "Validación", y es igual a una string referenciada en "strings.xml"
+                    Toast.LENGTH_SHORT //define la cantidad de tiempo que va a mostrar el mensaje en pantalla, short en unos 2 segundos, LONG sería unos 3,5 segundos
                 ).show()
-                // Limpiamos el formulario: al cambiar los estados, la pantalla se actualiza sola
+                //al clickar el botón, finalmente, se limpian los campos
                 titulo = ""
                 director = ""
-                anio = ""
-                esVista = false
+                año = ""
+                peliculaVista = false //importante "reiniciar" la condición a false, porque si no se mantiene en true, aunque al introducir de nuevo otra película el campo del título y del director estén vacíos
             },
-            // Validación dinámica: el botón solo se puede pulsar si el formulario es válido
+            //validación dinámica: el botón solo se puede pulsar si el formulario es válido
             enabled = formularioValido,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Contenido del botón: su texto
+            //texto dentro del botón
             Text(text = stringResource(R.string.form_btn_guardar))
         }
     }
