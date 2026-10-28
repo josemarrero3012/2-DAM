@@ -1,4 +1,4 @@
-package com.josemanuel.damflix.ui.screens
+package com.josemanuel.damflix.view.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

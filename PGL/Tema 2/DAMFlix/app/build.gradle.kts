@@ -54,4 +54,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     //añadir para el icono de corazón de la app
     implementation("androidx.compose.material:material-icons-extended")
+    //navegación oficial de Jetpack Compose para la fase 4
+    implementation("androidx.navigation:navigation-compose:2.10.2")
 }

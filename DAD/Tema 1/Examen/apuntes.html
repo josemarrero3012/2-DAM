@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Apuntes DAD MVVM</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Fira+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cs:#68217A; --vs:#007ACC; --ink:#1E1E2A; --mut:#5C5F70;
+  --paper:#FFFFFF; --soft:#F5F2F8; --line:#E3DCEB;
+  --ok:#2E8B57; --bad:#C0392B; --gold:#E2B714;
+  --code-bg:#1E1E1E;
+}
+@page{size:A4;margin:12mm 12mm 14mm 12mm}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Fira Sans",system-ui,sans-serif;font-size:10.2pt;line-height:1.42;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.mono,code,pre{font-family:"JetBrains Mono","MesloLGS Nerd Font Mono","DejaVu Sans Mono",monospace}
+.page{page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto}
+h1,h2,h3{margin:0;line-height:1.15}
+
+.cover{height:270mm;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,#1b0f24 0%,#2d1240 45%,#0d2a44 100%);color:#fff;border-radius:6px;padding:16mm 14mm;position:relative;overflow:hidden}
+.cover .hash{position:absolute;right:-30mm;top:20mm;font:800 260pt/1 "JetBrains Mono",monospace;color:rgba(255,255,255,.05)}
+.cover .ns{font:600 11pt "JetBrains Mono",monospace;color:#C586C0}
+.cover h1{font-size:40pt;font-weight:800;letter-spacing:-.5px;margin-top:6mm}
+.cover h1 span{color:#4EC9B0}
+.cover .sub{font-size:13pt;color:#cfc4dc;margin-top:4mm;max-width:150mm}
+.cover .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8mm}
+.cover .tags b{font:600 9pt "JetBrains Mono",monospace;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:3px 8px;border-radius:20px}
+.cover .big{font:600 10.5pt/1.6 "JetBrains Mono",monospace;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:12px 16px}
+.cover .big .k{color:#569CD6}.cover .big .t{color:#4EC9B0}.cover .big .s{color:#CE9178}.cover .big .c{color:#6A9955}
+.cover .idx{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;font-size:10pt;color:#e6def0}
+.cover .idx div{border-bottom:1px dashed rgba(255,255,255,.18);padding:3px 0}
+.cover .idx i{font-style:normal;font-family:"JetBrains Mono",monospace;color:#DCDCAA;margin-right:6px}
+.cover .idx .hu{color:#9fe3cf}
+
+.sec{display:flex;align-items:baseline;gap:10px;background:var(--soft);border-left:6px solid var(--cs);padding:7px 12px;border-radius:0 6px 6px 0;margin:0 0 9px}
+.sec.human{border-left-color:#2E8B57;background:#EAF6EF}
+.sec .n{font:800 18pt "JetBrains Mono",monospace;color:var(--cs)}
+.sec.human .n{color:#2E8B57}
+.sec h2{font:700 15pt "Fira Sans";color:var(--ink)}
+.sec .sig{margin-left:auto;font:500 8.5pt "JetBrains Mono",monospace;color:var(--mut)}
+.sec .sig .k{color:#0000FF}.sec .sig .t{color:#267F99}
+h3{font-size:11.2pt;color:var(--cs);margin:10px 0 5px;display:flex;align-items:center;gap:6px}
+h3::before{content:"//";font-family:"JetBrains Mono",monospace;color:#6A9955;font-weight:600}
+p{margin:4px 0 6px}
+ul{margin:3px 0 6px;padding-left:18px} li{margin:2px 0}
+.ic{font-family:"JetBrains Mono",monospace;font-size:.88em;background:#F1EDF6;color:#6F1E7E;padding:0 4px;border-radius:3px;white-space:nowrap}
+
+.code{background:var(--code-bg);color:#D4D4D4;border-radius:7px;margin:6px 0 9px;overflow:hidden;break-inside:avoid}
+.code .bar{display:flex;align-items:center;gap:6px;background:#2D2D30;padding:4px 10px;font:500 8pt "JetBrains Mono",monospace;color:#bbb}
+.code .bar i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.code .bar .f{margin-left:6px;color:#fff}
+.code .bar .l{margin-left:auto;background:var(--cs);color:#fff;padding:0 6px;border-radius:3px}
+.code .bar .l.x{background:#E44D26}
+.code pre{margin:0;padding:8px 12px;font-size:8.2pt;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.kw{color:#569CD6}.ctl{color:#C586C0}.ty{color:#4EC9B0}.st{color:#CE9178}.cm{color:#6A9955;font-style:italic}
+.nu{color:#B5CEA8}.at{color:#DCDCAA}.id{color:#9CDCFE}.tg{color:#569CD6}.me{color:#FFD700}.pu{color:#808080}
+.bd{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--gold);color:#1e1e1e;font:800 8pt "Fira Sans";vertical-align:1px;margin:0 2px}
+.bdp{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--gold);color:#1e1e1e;font:800 8pt "Fira Sans";flex:none}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px}
+.box{border:1.5px solid var(--line);border-radius:8px;padding:8px 11px;break-inside:avoid;margin:6px 0}
+.box h4{margin:0 0 4px;font-size:10.2pt;display:flex;align-items:center;gap:6px}
+.memo{background:linear-gradient(135deg,#FFF8DB,#FFF2C2);border-color:#E9CD62}
+.memo h4::before{content:"🧠"}
+.trap{background:#FDEDEC;border-color:#F1A9A0}
+.trap h4::before{content:"⚠️"}
+.tip{background:#E8F6EE;border-color:#9CD3B2}
+.tip h4::before{content:"✅"}
+.exam{background:#EAF3FB;border-color:#9FC6E8}
+.exam h4::before{content:"🎯"}
+.say{background:#EFFAF4;border-color:#8FD1AE}
+.say h4::before{content:"🗣️"}
+.notes{list-style:none;padding:0;margin:4px 0}
+.notes li{display:flex;gap:7px;align-items:flex-start;margin:3px 0}
+.mn{font:800 15pt "JetBrains Mono",monospace;letter-spacing:2px;color:var(--cs)}
+.mn b{color:var(--vs)}
+
+table{width:100%;border-collapse:collapse;font-size:9pt;margin:5px 0 8px}
+th{background:var(--cs);color:#fff;text-align:left;padding:5px 7px;font-weight:600}
+td{border-bottom:1px solid var(--line);padding:4px 7px;vertical-align:top}
+tr{break-inside:avoid}
+tr:nth-child(even) td{background:#FAF8FC}
+.yes{color:var(--ok);font-weight:700}.no{color:var(--bad);font-weight:700}
+
+/* ---- tablas "en lenguaje humano" ---- */
+table.tr{border-collapse:separate;border-spacing:0 3px;margin:2px 0 6px}
+table.tr td{border:none;background:none}
+table.tr td.cd{background:#1E1E1E!important;color:#D4D4D4;font:7.9pt/1.45 "JetBrains Mono","DejaVu Sans Mono",monospace;padding:5px 8px;border-radius:6px 0 0 6px;width:45%;white-space:pre-wrap;word-break:break-word}
+table.tr td.hu{background:#EFFAF4!important;padding:5px 10px;border-radius:0 6px 6px 0;font-size:9.1pt;line-height:1.38;border-left:3px solid #2E8B57}
+table.tr td.hu b{color:#1E6B41}
+table.tr tr.gh td{background:none!important;padding:7px 2px 1px;font:700 9.6pt "Fira Sans";color:#2E8B57}
+table.tr tr.gh td span{font:600 8pt "JetBrains Mono",monospace;color:var(--mut);margin-left:6px}
+.an{display:inline-block;font-size:8.2pt;color:#7a5a00;background:#FFF4CC;border-radius:4px;padding:0 5px;margin-top:2px}
+
+/* personajes */
+.char{border-radius:10px;padding:9px 10px;color:#fff;break-inside:avoid}
+.char .e{font-size:22pt;line-height:1}
+.char .t{font:800 10.5pt "Fira Sans";margin-top:3px}
+.char .f{font:600 7.6pt "JetBrains Mono",monospace;opacity:.9}
+.char p{font-size:8.6pt;margin:4px 0 0;line-height:1.35}
+
+/* anatomía binding */
+.anat{background:#1E1E1E;border-radius:8px;padding:14px 12px 8px;margin:6px 0;break-inside:avoid}
+.anat .row{display:flex;justify-content:center;font:600 11pt "JetBrains Mono",monospace;gap:0}
+.anat .row span{padding:2px 3px;border-bottom:3px solid}
+.anat .lab{display:flex;justify-content:center;gap:0;margin-top:6px}
+.anat .lab div{font:500 8pt "Fira Sans";color:#ddd;text-align:center;padding:0 4px}
+
+.arch{display:grid;grid-template-columns:1fr 46px 1.15fr 46px 1fr 46px 0.9fr;align-items:stretch;margin:8px 0 6px}
+.layer{border-radius:9px;padding:8px 9px;color:#fff;break-inside:avoid}
+.layer .t{font:800 11pt "Fira Sans"}
+.layer .f{font:500 7.6pt "JetBrains Mono",monospace;opacity:.92;margin-top:2px}
+.layer ul{margin:5px 0 0;padding-left:14px;font-size:8.4pt}
+.L-v{background:linear-gradient(160deg,#007ACC,#005A9E)}
+.L-vm{background:linear-gradient(160deg,#68217A,#4A1557)}
+.L-s{background:linear-gradient(160deg,#2E8B57,#1E6B41)}
+.L-m{background:linear-gradient(160deg,#D9822B,#B5651D)}
+.L-b{background:linear-gradient(160deg,#5C5F70,#3b3d4a)}
+.arr{display:flex;flex-direction:column;justify-content:center;align-items:center;font:600 7.2pt "JetBrains Mono",monospace;color:var(--mut);text-align:center;gap:2px}
+.arr .a{font-size:15pt;color:var(--cs);line-height:1}
+
+.steps{counter-reset:s;list-style:none;padding:0;margin:4px 0}
+.steps li{counter-increment:s;position:relative;padding:5px 8px 5px 34px;margin:4px 0;background:var(--soft);border-radius:6px;break-inside:avoid}
+.steps li::before{content:counter(s);position:absolute;left:7px;top:5px;width:19px;height:19px;border-radius:50%;background:var(--cs);color:#fff;font:800 9pt "Fira Sans";display:flex;align-items:center;justify-content:center}
+
+.win{border:1px solid #c9c9d1;border-radius:6px;overflow:hidden;font-size:8pt;break-inside:avoid;background:#fff}
+.win .tb{background:#f0f0f3;padding:3px 8px;font-weight:600;display:flex;justify-content:space-between;color:#333}
+.win .r0{background:#F4F4F6;margin:6px;padding:6px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.win .in{border:1px solid #aaa;background:#fff;padding:1px 4px;min-width:50px;color:#777}
+.win .btn{background:#007ACC;color:#fff;font-weight:700;padding:2px 8px}
+.win table{margin:0 6px;width:calc(100% - 12px);font-size:7.6pt}
+.win th{background:#f7f7f9;color:#333;border-bottom:1px solid #ddd;padding:2px 5px}
+.win td{padding:2px 5px}
+.win .sel td{background:#CCE8FF!important}
+.win .st{padding:5px 8px;font-weight:600;color:#333}
+.win .st b{color:#007ACC}
+.rowtag{font:700 7pt "JetBrains Mono",monospace;color:#fff;background:var(--cs);padding:0 4px;border-radius:3px;margin-right:4px}
+
+.qa{break-inside:avoid;border:1px solid var(--line);border-radius:7px;margin:5px 0;overflow:hidden}
+.qa .q{background:var(--soft);padding:5px 9px;font-weight:700;display:flex;gap:7px}
+.qa .q .ix{font-family:"JetBrains Mono",monospace;color:var(--cs)}
+.qa .a{padding:5px 9px 6px 9px;font-size:9.4pt}
+.foot{font:500 7.5pt "JetBrains Mono",monospace;color:var(--mut);text-align:right;margin-top:6px}
+.small{font-size:8.8pt;color:var(--mut)}
+.pill{display:inline-block;font:700 7.5pt "JetBrains Mono",monospace;padding:1px 6px;border-radius:10px;color:#fff;vertical-align:1px}
+.p-v{background:#007ACC}.p-vm{background:#68217A}.p-s{background:#2E8B57}.p-m{background:#D9822B}
+</style>
+</head>
+<body>
+
+<!-- ===================== PORTADA ===================== -->
+<section class="page">
+<div class="cover">
+  <div class="hash">C#</div>
+  <div>
+    <div class="ns">namespace DAD.ExamenTeorico;</div>
+    <h1>MVVM en WPF<br><span>BibliotecaIntegral</span></h1>
+    <div class="sub">Apuntes visuales para el examen teórico de Desarrollo de Aplicaciones de Escritorio. Todo el código del examen explicado dos veces: en lenguaje técnico y en lenguaje humano, para que cualquiera lo entienda.</div>
+    <div class="tags"><b>[ObservableProperty]</b><b>[RelayCommand]</b><b>ObservableCollection&lt;T&gt;</b><b>Binding</b><b>DataContext</b><b>Inyección</b><b>CanExecute</b></div>
+  </div>
+
+  <div class="big">
+<span class="c">// La frase que lo resume TODO (apréndetela tal cual)</span><br>
+<span class="k">public</span> <span class="k">class</span> <span class="t">MVVM</span> {<br>
+&nbsp;&nbsp;<span class="t">Model</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; <span class="s">"SABE"</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// los datos (Libro)</span><br>
+&nbsp;&nbsp;<span class="t">View</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; <span class="s">"MUESTRA"</span>;&nbsp;&nbsp;<span class="c">// el XAML, sin lógica</span><br>
+&nbsp;&nbsp;<span class="t">ViewModel</span>&nbsp;&nbsp;&nbsp;=&gt; <span class="s">"MANDA"</span>;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// estado + órdenes (comandos)</span><br>
+&nbsp;&nbsp;<span class="t">Binding</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; <span class="s">"EL CABLE"</span>;&nbsp;<span class="c">// une View ⇄ ViewModel</span><br>
+}
+  </div>
+
+  <div class="idx">
+    <div class="hu"><i>00</i>🗣️ La historia y el diccionario C#</div>
+    <div><i>05</i>View · XAML y Bindings <span class="hu">+ 🗣️</span></div>
+    <div><i>01</i>El mapa: arquitectura y carpetas</div>
+    <div><i>06</i>Traza: qué pasa al pulsar "Añadir"</div>
+    <div><i>02</i>Model · Libro.cs <span class="hu">+ 🗣️</span></div>
+    <div><i>07</i>Magia del Toolkit: qué genera</div>
+    <div><i>03</i>Service · interfaz + mockup <span class="hu">+ 🗣️</span></div>
+    <div><i>08</i>Evolución: de 01 a Toolkit + Inyección</div>
+    <div><i>04</i>ViewModel · el cerebro <span class="hu">+ 🗣️</span></div>
+    <div><i>09</i>Trampas y "¿qué pasa si…?"</div>
+    <div class="hu" style="grid-column:1/-1;border:none;font-size:9pt">🗣️ = página "en lenguaje humano": el código a la izquierda y lo que significa, en castellano normal, a la derecha.</div>
+    <div><i>10</i>Chuleta final de 1 página</div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== 00 HISTORIA ===================== -->
+<section class="page">
+<div class="sec human"><span class="n">00</span><h2>La historia: el programa explicado sin informática</h2><span class="sig">🗣️ lenguaje humano</span></div>
+
+<p>Antes de leer una sola línea de código, imagina una <b>biblioteca de barrio</b> de verdad. El programa del examen copia exactamente cómo funciona. Cada archivo es un <b>personaje</b>:</p>
+
+<div class="grid4">
+ <div class="char L-m"><div class="e">📇</div><div class="t">La ficha</div><div class="f">Libro.cs · Model</div><p>Una ficha de cartulina en blanco con 5 casillas: número, título, género, precio y "¿disponible?". No piensa ni hace nada: solo <b>guarda datos</b>.</p></div>
+ <div class="char L-s"><div class="e">📦</div><div class="t">El almacén</div><div class="f">LibroService.cs · Service</div><p>El sitio de donde salen las fichas. Aquí es un almacén <b>de mentira</b>: siempre entrega las mismas 4 fichas escritas a mano.</p></div>
+ <div class="char L-vm"><div class="e">🧑‍💼</div><div class="t">El bibliotecario</div><div class="f">MainViewModel.cs · ViewModel</div><p>El cerebro. Tiene las fichas sobre la mesa, apunta lo que el cliente rellena y <b>decide</b> si se puede añadir un libro.</p></div>
+ <div class="char L-v"><div class="e">🪟</div><div class="t">El mostrador</div><div class="f">MainWindow.xaml · View</div><p>Lo que ve el cliente: el formulario, la tabla y el botón. <b>No decide nada</b>: solo enseña y recoge.</p></div>
+</div>
+
+<div class="grid2" style="margin-top:4px">
+ <div class="box say"><h4>Y las piezas que los conectan</h4>
+  <ul class="small" style="color:var(--ink);padding-left:14px;line-height:1.5">
+   <li><b>🧵 Binding</b> = un <b>hilo invisible</b> que cose cada casilla del mostrador con una libreta del bibliotecario. Lo que escribes en la casilla aparece en la libreta, y al revés.</li>
+   <li><b>🔔 Command</b> = el <b>timbre</b> del mostrador. El botón no hace el trabajo: solo toca el timbre y el bibliotecario actúa.</li>
+   <li><b>🚦 CanExecute</b> = el bibliotecario <b>tapa el timbre</b> (botón gris) si la ficha no tiene título.</li>
+   <li><b>📢 INotifyPropertyChanged</b> = un <b>altavoz</b>: cuando el bibliotecario cambia algo, grita "¡ha cambiado X!" y el mostrador se actualiza.</li>
+   <li><b>🛎️ ObservableCollection</b> = un <b>tablón con campanita</b>: cada vez que se cuelga o se quita una ficha suena, y la tabla se redibuja.</li>
+   <li><b>🪪 DataContext</b> = el cartel del mostrador que dice <b>"le atiende: este bibliotecario"</b>. Así cada hilo sabe a quién ir.</li>
+   <li><b>🤝 Inyección</b> = cuando contratas al bibliotecario <b>le das tú el almacén</b>; él no se construye uno propio.</li>
+  </ul></div>
+ <div>
+  <div class="box say"><h4>La historia completa en 6 frases</h4>
+   <ol class="small" style="color:var(--ink);padding-left:16px;margin:2px 0">
+    <li>Se abre la biblioteca: alguien <b>crea el almacén</b> y <b>contrata al bibliotecario</b> dándoselo.</li>
+    <li>El bibliotecario pide las fichas al almacén y las <b>cuelga en el tablón</b>: la tabla se llena con 4 libros.</li>
+    <li>El cliente escribe un título: el hilo invisible lo lleva <b>letra a letra</b> a la libreta del bibliotecario.</li>
+    <li>Como ya hay título, el bibliotecario <b>destapa el timbre</b>: el botón se pone azul.</li>
+    <li>El cliente pulsa el botón: el bibliotecario <b>rellena una ficha nueva</b> y la cuelga; la campanita suena y aparece una fila más.</li>
+    <li>El bibliotecario <b>borra el título</b> de su libreta: la casilla se vacía y el timbre vuelve a taparse.</li>
+   </ol></div>
+  <div class="box memo"><h4>¿Por qué separarlo así?</h4><p class="small">Si mañana el mostrador cambia de diseño, el bibliotecario sigue igual. Si cambias el almacén falso por una base de datos real, ni el mostrador ni el bibliotecario se enteran. <b>Cada uno hace una sola cosa.</b> Eso es MVVM.</p></div>
+ </div>
+</div>
+
+<h3>Cómo se lee un {Binding}: anatomía</h3>
+<div class="anat">
+ <div class="row"><span style="color:#DCDCAA;border-color:#DCDCAA">{Binding</span><span style="color:#9CDCFE;border-color:#9CDCFE">&nbsp;NuevoTitulo</span><span style="color:#808080;border-color:#808080">,</span><span style="color:#4EC9B0;border-color:#4EC9B0">&nbsp;UpdateSourceTrigger=PropertyChanged</span><span style="color:#DCDCAA;border-color:#DCDCAA">}</span></div>
+ <div class="lab">
+  <div style="width:22%">"Coso esto con un hilo…"</div>
+  <div style="width:24%">"…a la libreta llamada <b>NuevoTitulo</b> del bibliotecario"</div>
+  <div style="width:38%">"…y le paso el dato <b>con cada tecla</b> (no cuando salga de la casilla)"</div>
+ </div>
+</div>
+<p class="small">Se lee de izquierda a derecha como una frase: <b>"Enlaza [esta propiedad del control] con [la propiedad NuevoTitulo del DataContext], actualizando [cada vez que cambie]".</b></p>
+</section>
+
+<!-- ===================== 00 DICCIONARIO ===================== -->
+<section class="page">
+<div class="sec human"><span class="n">00</span><h2>Diccionario: C# y XAML traducidos a castellano</h2><span class="sig">🗣️ lenguaje humano</span></div>
+<p class="small">Cada palabra que aparece en el código del examen, con su traducción a lenguaje normal. Si no entiendes una línea, busca aquí las palabras.</p>
+
+<div class="grid2" style="align-items:start">
+<table class="tr">
+ <tr class="gh"><td colspan="2">Organización</td></tr>
+ <tr><td class="cd">namespace BibliotecaIntegral.Models</td><td class="hu">La <b>dirección</b> o carpeta de la clase. Como un apellido: evita que dos clases con el mismo nombre se confundan.</td></tr>
+ <tr><td class="cd">using CommunityToolkit.Mvvm.Input;</td><td class="hu">"Voy a usar la <b>caja de herramientas</b> X". Se pone arriba del archivo.</td></tr>
+ <tr><td class="cd">class Libro</td><td class="hu">Un <b>molde</b> para fabricar objetos. <span class="ic">Libro</span> es el molde; cada libro concreto es un objeto.</td></tr>
+ <tr><td class="cd">new Libro()</td><td class="hu"><b>Fabricar</b> un objeto nuevo con el molde.</td></tr>
+ <tr><td class="cd">public / private / internal</td><td class="hu">¿Quién puede verlo? <b>Todos</b> / <b>solo la propia clase</b> / <b>solo este proyecto</b>.</td></tr>
+ <tr><td class="cd">partial class</td><td class="hu">La clase está <b>escrita en varios trozos</b>: tú escribes uno y otro lo escribe la máquina.</td></tr>
+ <tr><td class="cd">class A : B</td><td class="hu">"A <b>es un</b> B" (hereda sus capacidades) o "A <b>firma el contrato</b> B".</td></tr>
+ <tr><td class="cd">interface ILibroService</td><td class="hu">Un <b>contrato</b>: lista de cosas que promete saber hacer quien lo firme. No dice cómo.</td></tr>
+ <tr class="gh"><td colspan="2">Datos</td></tr>
+ <tr><td class="cd">int · string · decimal · bool</td><td class="hu">Número entero · texto · número con decimales exactos (dinero) · sí/no (true/false).</td></tr>
+ <tr><td class="cd">public string Titulo { get; set; }</td><td class="hu"><b>Propiedad</b>: una casilla con nombre que se puede <b>leer</b> (get) y <b>escribir</b> (set).</td></tr>
+ <tr><td class="cd">private string _nuevoTitulo;</td><td class="hu"><b>Campo</b>: una variable interna, la libreta privada de la clase. El <span class="ic">_</span> es costumbre para lo privado.</td></tr>
+ <tr><td class="cd">Libro?</td><td class="hu">El <b>?</b> significa "puede estar <b>vacío</b>" (null).</td></tr>
+ <tr><td class="cd">null · string.Empty</td><td class="hu"><b>Nada</b> (no hay objeto) · texto <b>vacío</b> <span class="ic">""</span> (hay texto, pero sin letras).</td></tr>
+ <tr><td class="cd">List&lt;Libro&gt;</td><td class="hu">Una <b>lista de libros</b>. Lo de dentro de <span class="ic">&lt; &gt;</span> dice de qué es la lista.</td></tr>
+ <tr><td class="cd">2.50m</td><td class="hu">El número 2,50 <b>como dinero</b> (decimal). Sin la m sería double.</td></tr>
+</table>
+<table class="tr">
+ <tr class="gh"><td colspan="2">Acciones</td></tr>
+ <tr><td class="cd">private void CargarDatos() { }</td><td class="hu"><b>Método</b>: una acción con nombre. <span class="ic">void</span> = "no devuelve nada, solo hace".</td></tr>
+ <tr><td class="cd">return lista;</td><td class="hu">"Aquí tienes el <b>resultado</b>", y se sale del método.</td></tr>
+ <tr><td class="cd">public MainViewModel(...) { }</td><td class="hu"><b>Constructor</b>: método con el mismo nombre que la clase. Es lo que pasa <b>al nacer</b> el objeto.</td></tr>
+ <tr><td class="cd">readonly</td><td class="hu">Se asigna <b>al nacer</b> y luego ya no se puede cambiar.</td></tr>
+ <tr><td class="cd">var datos = ...</td><td class="hu">"Crea una variable y <b>deduce tú el tipo</b>".</td></tr>
+ <tr><td class="cd">=&gt;</td><td class="hu">Atajo: "<b>se calcula como</b>…". Ahorra escribir llaves y <span class="ic">return</span>.</td></tr>
+ <tr><td class="cd">!  ·  ==  ·  !=</td><td class="hu"><b>NO</b> · ¿es igual? · ¿es distinto?</td></tr>
+ <tr><td class="cd">new Libro { Id = 1, Titulo = "X" }</td><td class="hu"><b>Fabricar y rellenar</b> las casillas en el mismo paso.</td></tr>
+ <tr><td class="cd">[ObservableProperty]</td><td class="hu"><b>Atributo</b>: una <b>pegatina</b> encima del código para que el Toolkit escriba código automáticamente.</td></tr>
+ <tr><td class="cd">nameof(PuedeAgregar)</td><td class="hu">El nombre de algo <b>como texto</b> ("PuedeAgregar"), comprobado: si te equivocas, no compila.</td></tr>
+ <tr class="gh"><td colspan="2">XAML (la pantalla)</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;TextBox Width="170" /&gt;</td><td class="hu">Cada <span class="ic">&lt;Etiqueta&gt;</span> es <b>un control</b> en pantalla; lo de dentro son sus <b>ajustes</b>.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Grid&gt; &lt;StackPanel&gt; &lt;Border&gt;</td><td class="hu"><b>Cuadrícula</b> de filas/columnas · controles <b>en fila</b> uno tras otro · <b>recuadro</b> con fondo.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Label&gt; &lt;TextBlock&gt; &lt;TextBox&gt;</td><td class="hu">Texto fijo · texto de solo lectura · <b>caja para escribir</b>.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;ComboBox&gt; &lt;CheckBox&gt; &lt;Button&gt;</td><td class="hu"><b>Desplegable</b> · <b>casilla</b> de marcar · <b>botón</b>.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;ListView&gt; + &lt;GridView&gt;</td><td class="hu">Una <b>lista</b> que, con GridView, se ve como <b>tabla</b> con columnas.</td></tr>
+ <tr><td class="cd" data-l="xml">Text="{Binding X}"</td><td class="hu">"Este ajuste <b>no es fijo</b>: sácalo de la propiedad X del bibliotecario".</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ===================== 01 MAPA ===================== -->
+<section class="page">
+<div class="sec"><span class="n">01</span><h2>El mapa del proyecto</h2><span class="sig"><span class="k">namespace</span> <span class="t">BibliotecaIntegral</span></span></div>
+
+<p>El proyecto separa responsabilidades en <b>4 carpetas</b>. Cada capa solo conoce a la de su derecha. La <b>Vista nunca toca el Modelo directamente</b>: siempre pasa por el ViewModel.</p>
+
+<div class="arch">
+  <div class="layer L-v"><div class="t">View 🪟</div><div class="f">Views/MainWindow.xaml</div>
+    <ul><li>TextBox, ComboBox, CheckBox, Button</li><li>ListView + GridView</li><li>Solo <b>{Binding}</b></li></ul></div>
+  <div class="arr"><span class="a">⇄</span>Binding<br>Command</div>
+  <div class="layer L-vm"><div class="t">ViewModel 🧑‍💼</div><div class="f">ViewModels/MainViewModel.cs</div>
+    <ul><li>Propiedades observables</li><li>Comando AgregarLibro</li><li>Regla PuedeAgregar</li></ul></div>
+  <div class="arr"><span class="a">→</span>usa la<br>interfaz</div>
+  <div class="layer L-s"><div class="t">Service 📦</div><div class="f">Services/ILibroService.cs<br>Services/LibroService.cs</div>
+    <ul><li>Devuelve datos de prueba (mockup)</li></ul></div>
+  <div class="arr"><span class="a">→</span>crea</div>
+  <div class="layer L-m"><div class="t">Model 📇</div><div class="f">Models/Libro.cs</div>
+    <ul><li>POCO: solo propiedades</li></ul></div>
+</div>
+
+<div class="grid2">
+  <div class="box memo"><h4>Carpetas: "Mi Vecino Sirve Vino"</h4>
+    <div class="mn"><b>M</b>odels · <b>V</b>iewModels · <b>S</b>ervices · <b>V</b>iews</div>
+    <p class="small">Y el <b>orden en el que se programa</b> el ejercicio:<br><b>L</b>ibro → <b>I</b>nterfaz → <b>S</b>ervicio → <b>V</b>iewModel → <b>V</b>ista → <b>C</b>onectar (code-behind)<br>
+    👉 <i>"Los Indios Siempre Ven Vacas Contentas"</i></p>
+  </div>
+  <div class="box exam"><h4>Definición para el examen</h4>
+    <p><b>MVVM</b> (Model-View-ViewModel) es un patrón de arquitectura que <b>separa la interfaz de la lógica</b>. La Vista se conecta al ViewModel mediante <b>Data Binding</b> y <b>Comandos</b>, de forma que el code-behind queda prácticamente vacío. Ventajas: <b>testeable</b>, <b>mantenible</b>, diseñador y programador trabajan por separado.</p>
+  </div>
+</div>
+
+<h3>La ventana que se obtiene (mapa visual del Grid de 3 filas)</h3>
+<div class="grid2" style="grid-template-columns:1.25fr 1fr;align-items:start">
+<div class="win">
+  <div class="tb"><span>Biblioteca Digital</span><span>— ☐ ✕</span></div>
+  <div class="r0"><span class="rowtag">Row 0 · Auto</span>Título: <span class="in">Dune</span> Género: <span class="in">Aventura ▾</span> Precio: <span class="in">2,5</span> ☑ Disponible <span class="btn">Añadir libro</span></div>
+  <div style="padding:0 6px 2px"><span class="rowtag">Row 1 · *</span></div>
+  <table><tr><th>ID</th><th>Título</th><th>Género</th><th>Precio</th><th>Disponible</th></tr>
+  <tr><td>1</td><td>Berserk</td><td>Aventura</td><td>2,50 €</td><td>True</td></tr>
+  <tr class="sel"><td>2</td><td>Solanin</td><td>Tragedia</td><td>3,00 €</td><td>False</td></tr>
+  <tr><td>3</td><td>Mi lucha…</td><td>Historia</td><td>2,00 €</td><td>True</td></tr>
+  <tr><td>4</td><td>Cómo ganar amigos…</td><td>Social</td><td>3,50 €</td><td>True</td></tr></table>
+  <div class="st"><span class="rowtag">Row 2 · Auto</span>Seleccionado: <b>Solanin</b></div>
+</div>
+<div>
+  <ul class="notes">
+    <li><span class="bdp">0</span><span><b>Formulario</b> en un <span class="ic">Border</span> con <span class="ic">StackPanel Orientation="Horizontal"</span>.</span></li>
+    <li><span class="bdp">1</span><span><b>ListView</b> con <span class="ic">GridView</span>: ocupa todo el sitio sobrante (<span class="ic">Height="*"</span>).</span></li>
+    <li><span class="bdp">2</span><span><b>Barra de estado</b>: <span class="ic">TextBlock</span> con dos <span class="ic">Run</span>, uno fijo y otro enlazado a <span class="ic">LibroSeleccionado.Titulo</span>.</span></li>
+  </ul>
+  <div class="box memo" style="margin-top:6px"><h4>Auto · Estrella · Auto</h4>
+    <p class="small"><b>Auto</b> = "lo que necesite el contenido". <b>*</b> = "todo lo que sobre". Piensa en un <b>bocadillo</b>: pan (Auto), relleno (*), pan (Auto).</p></div>
+</div>
+</div>
+</section>
+
+<!-- ===================== 02 MODEL + 03 SERVICE ===================== -->
+<section class="page">
+<div class="sec"><span class="n">02</span><h2>Model · Libro.cs</h2><span class="sig"><span class="k">public class</span> <span class="t">Libro</span></span></div>
+
+<div class="grid2" style="grid-template-columns:1.2fr 1fr;align-items:start">
+<div>
+<script type="text/x-code" data-lang="cs" data-file="Models/Libro.cs">namespace BibliotecaIntegral.Models
+{
+    public class Libro ⟦1⟧ // Visual Studio la crea "internal"
+    {
+        public int Id { get; set; }
+        public string Titulo { get; set; } = string.Empty; ⟦2⟧
+        public string Genero { get; set; } = string.Empty;
+        public decimal PrecioAlquiler { get; set; } ⟦3⟧
+        public bool Disponibilidad { get; set; }
+    }
+}</script>
+</div>
+<div>
+<ul class="notes">
+ <li><span class="bdp">1</span><span><b>internal → public</b>. Si se queda <span class="ic">internal</span>, una interfaz o ViewModel <span class="ic">public</span> que la exponga da error de <b>accesibilidad incoherente</b> (CS0050/CS0053).</span></li>
+ <li><span class="bdp">2</span><span><span class="ic">= string.Empty</span> evita el aviso de <b>nulos</b> (el .csproj tiene <span class="ic">&lt;Nullable&gt;enable</span>).</span></li>
+ <li><span class="bdp">3</span><span><b>decimal</b> para dinero: es exacto en base 10. <span class="ic">double</span> tiene errores de redondeo (0.1+0.2≠0.3).</span></li>
+</ul>
+<div class="box tip"><h4>POCO</h4><p class="small">El modelo es una clase "tonta": <b>solo datos</b>, sin lógica ni notificaciones (<i>Plain Old CLR Object</i>). No hereda de nada.</p></div>
+</div>
+</div>
+
+<div class="sec" style="margin-top:6px"><span class="n">03</span><h2>Service · contrato + implementación</h2><span class="sig"><span class="k">interface</span> <span class="t">ILibroService</span></span></div>
+
+<div class="grid2">
+<script type="text/x-code" data-lang="cs" data-file="Services/ILibroService.cs">using BibliotecaIntegral.Models; // Libro vive en otra carpeta
+
+namespace BibliotecaIntegral.Services
+{
+    // EL CONTRATO: "qué" se puede pedir, no "cómo"
+    public interface ILibroService ⟦1⟧
+    {
+        List<Libro> ObtenerLibrosMockup();
+    }
+}</script>
+<script type="text/x-code" data-lang="cs" data-file="Services/LibroService.cs">public class LibroService : ILibroService ⟦2⟧
+{
+    public List<Libro> ObtenerLibrosMockup()
+    {
+        return new List<Libro>
+        {
+            new Libro { Id = 1, Titulo = "Berserk",
+                Genero = "Aventura",
+                PrecioAlquiler = 2.50m ⟦3⟧,
+                Disponibilidad = true },
+            // ... 3 libros más
+        };
+    }
+}</script>
+</div>
+
+<div class="grid3">
+ <div class="box"><h4><span class="bdp">1</span>Interfaz = contrato</h4><p class="small">Empieza por <b>I</b> por convención. Solo firmas, sin cuerpo. El ViewModel depende de la <b>interfaz</b>, no de la clase concreta → <b>bajo acoplamiento</b>.</p></div>
+ <div class="box"><h4><span class="bdp">2</span>": ILibroService"</h4><p class="small">La clase <b>implementa</b> la interfaz: está obligada a tener <span class="ic">ObtenerLibrosMockup()</span>. Mañana se puede cambiar por <span class="ic">LibroServiceSQL</span> sin tocar el ViewModel.</p></div>
+ <div class="box"><h4><span class="bdp">3</span>El sufijo <b>m</b></h4><p class="small"><span class="ic">2.50</span> es <b>double</b> para C#. Asignarlo a un <b>decimal</b> da error CS0664. <span class="ic">2.50m</span> = literal decimal.<br><b>m</b> de <b>m</b>oney 💶</p></div>
+</div>
+
+<div class="grid2">
+ <div class="box memo"><h4>Sufijos numéricos: "Mi Dinero Flota Largo"</h4>
+  <table style="margin:2px 0"><tr><th>Sufijo</th><th>Tipo</th><th>Ejemplo</th></tr>
+   <tr><td class="mono"><b>m</b></td><td>decimal (<b>M</b>oney)</td><td class="mono">2.50m</td></tr>
+   <tr><td class="mono"><b>d</b> / nada</td><td>double</td><td class="mono">2.50</td></tr>
+   <tr><td class="mono"><b>f</b></td><td>float (<b>F</b>lota)</td><td class="mono">2.50f</td></tr>
+   <tr><td class="mono"><b>L</b></td><td>long (<b>L</b>argo)</td><td class="mono">5L</td></tr></table>
+ </div>
+ <div class="box exam"><h4>¿Qué es un "mockup" / servicio simulado?</h4>
+  <p class="small">Un servicio que devuelve <b>datos falsos en memoria</b> (lista escrita a mano) en vez de leer de una base de datos. Sirve para desarrollar y probar la interfaz <b>antes</b> de tener la BD. Gracias a la interfaz, cambiarlo por el real es trivial. Es lo mismo que <span class="ic">ServicioMensajesSimulado : IServicioMensajes</span> del ejemplo 4_Inyección.</p></div>
+</div>
+</section>
+
+<!-- ===================== 02-03 HUMANO ===================== -->
+<section class="page">
+<div class="sec human"><span class="n">02·03</span><h2>Libro y LibroService en lenguaje humano</h2><span class="sig">🗣️ 📇 📦</span></div>
+
+<table class="tr">
+ <tr class="gh"><td colspan="2">📇 Libro.cs: la ficha en blanco<span>Models/Libro.cs</span></td></tr>
+ <tr><td class="cd">namespace BibliotecaIntegral.Models</td><td class="hu">"Lo que viene a continuación vive en la carpeta <b>Models</b> del proyecto BibliotecaIntegral." Es su dirección postal.</td></tr>
+ <tr><td class="cd">public class Libro</td><td class="hu">Empieza el <b>molde de una ficha de libro</b>. Es <b>public</b> para que el almacén y el bibliotecario puedan usarla (Visual Studio la crea <i>internal</i> y hay que cambiarlo).</td></tr>
+ <tr><td class="cd">public int Id { get; set; }</td><td class="hu">Casilla 1: el <b>número</b> del libro (entero). <span class="ic">get; set;</span> = se puede leer y escribir.</td></tr>
+ <tr><td class="cd">public string Titulo { get; set; } = string.Empty;</td><td class="hu">Casilla 2: el <b>título</b> (texto). Empieza como texto vacío <span class="ic">""</span> en vez de "nada" (null), para que nunca dé error por estar vacía.</td></tr>
+ <tr><td class="cd">public string Genero { get; set; } = string.Empty;</td><td class="hu">Casilla 3: el <b>género</b>. Mismo truco del texto vacío.</td></tr>
+ <tr><td class="cd">public decimal PrecioAlquiler { get; set; }</td><td class="hu">Casilla 4: el <b>precio</b> con céntimos exactos. <span class="an">💶 decimal = el tipo del dinero</span></td></tr>
+ <tr><td class="cd">public bool Disponibilidad { get; set; }</td><td class="hu">Casilla 5: <b>sí o no</b>, ¿se puede alquilar ahora?</td></tr>
+</table>
+<div class="box say"><h4>Resumen de Libro.cs en una frase</h4><p>"Es una <b>ficha en blanco con 5 casillas</b>. No hace nada por sí misma: solo guarda los datos de un libro."</p></div>
+
+<table class="tr">
+ <tr class="gh"><td colspan="2">📜 ILibroService.cs: el contrato<span>Services/ILibroService.cs</span></td></tr>
+ <tr><td class="cd">using BibliotecaIntegral.Models;</td><td class="hu">"Necesito conocer la ficha <b>Libro</b>, que vive en otra carpeta." Sin esta línea, aquí nadie sabría qué es un Libro.</td></tr>
+ <tr><td class="cd">public interface ILibroService</td><td class="hu">Se escribe un <b>contrato</b> llamado ILibroService (la <b>I</b> inicial avisa: "soy una Interfaz").</td></tr>
+ <tr><td class="cd">List&lt;Libro&gt; ObtenerLibrosMockup();</td><td class="hu">La única promesa: <b>"quien firme sabrá entregar una lista de libros"</b>. Termina en <span class="ic">;</span> sin llaves: el contrato dice <b>qué</b>, pero no <b>cómo</b>.</td></tr>
+ <tr class="gh"><td colspan="2">📦 LibroService.cs: el almacén de mentira<span>Services/LibroService.cs</span></td></tr>
+ <tr><td class="cd">public class LibroService : ILibroService</td><td class="hu">El almacén <b>firma el contrato</b> (los dos puntos). A partir de aquí está <b>obligado</b> a tener el método prometido o no compila.</td></tr>
+ <tr><td class="cd">public List&lt;Libro&gt; ObtenerLibrosMockup()</td><td class="hu">Aquí <b>sí se cumple</b> la promesa: un método que entrega una lista de libros.</td></tr>
+ <tr><td class="cd">return new List&lt;Libro&gt; {</td><td class="hu">"<b>Fabrica una lista nueva</b> y entrégala (return), ya rellena con lo que va entre llaves:"</td></tr>
+ <tr><td class="cd">new Libro { Id = 1, Titulo = "Berserk", Genero = "Aventura", PrecioAlquiler = 2.50m, Disponibilidad = true },</td><td class="hu">"Fabrica una ficha y <b>rellena sus 5 casillas</b> a la vez." La <b>m</b> de <span class="ic">2.50m</span> le dice a C#: "esto es dinero (decimal)". Sin ella da error.</td></tr>
+ <tr><td class="cd">// ... 3 libros más (Solanin, Mi lucha, Cómo ganar amigos)</td><td class="hu">Igual con otras tres fichas. Total: <b>4 libros</b>.</td></tr>
+</table>
+<div class="grid2">
+ <div class="box say"><h4>Resumen del Service en una frase</h4><p>"El contrato dice <b>qué</b> se puede pedir (una lista de libros); el almacén <b>lo cumple</b> devolviendo siempre 4 libros escritos a mano, en lugar de leerlos de una base de datos."</p></div>
+ <div class="box memo"><h4>¿Para qué un contrato si solo hay un almacén?</h4><p class="small">Porque el bibliotecario solo conoce el <b>contrato</b>. Mañana cambias el almacén de mentira por uno que lea de SQL, y el bibliotecario <b>ni se entera</b>. Como un enchufe: te da igual qué central eléctrica haya detrás.</p></div>
+</div>
+</section>
+
+<!-- ===================== 04 VIEWMODEL ===================== -->
+<section class="page">
+<div class="sec"><span class="n">04</span><h2>ViewModel · el cerebro</h2><span class="sig"><span class="k">public partial class</span> <span class="t">MainViewModel</span> : <span class="t">ObservableObject</span></span></div>
+
+<script type="text/x-code" data-lang="cs" data-file="ViewModels/MainViewModel.cs">using CommunityToolkit.Mvvm.ComponentModel; // ObservableObject, [ObservableProperty]
+using CommunityToolkit.Mvvm.Input;          // [RelayCommand]
+using System.Collections.ObjectModel;       // ObservableCollection
+
+public partial class MainViewModel : ObservableObject ⟦1⟧
+{
+    private readonly ILibroService _libroService; ⟦2⟧
+
+    [ObservableProperty]
+    private ObservableCollection<Libro> _libros = new(); ⟦3⟧
+
+    [ObservableProperty]
+    private Libro? _libroSeleccionado; ⟦4⟧
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AgregarLibroCommand))] ⟦5⟧
+    private string _nuevoTitulo = string.Empty;
+
+    [ObservableProperty] private string _nuevoGenero = "";
+    [ObservableProperty] private decimal _nuevoPrecio;
+    [ObservableProperty] private bool _nuevoDisponible;
+
+    [ObservableProperty]
+    private List<string> _generos = new() { "Aventura", "Tragedia", "Historia", "Social" }; ⟦6⟧
+
+    public MainViewModel(ILibroService libroService) ⟦7⟧
+    {
+        _libroService = libroService;
+        CargarDatos();
+    }
+
+    private void CargarDatos()
+    {
+        var datos = _libroService.ObtenerLibrosMockup();
+        Libros = new ObservableCollection<Libro>(datos); ⟦8⟧
+    }
+
+    private bool PuedeAgregar => !string.IsNullOrWhiteSpace(NuevoTitulo); ⟦9⟧
+
+    [RelayCommand(CanExecute = nameof(PuedeAgregar))] ⟦10⟧
+    private void AgregarLibro()
+    {
+        var nuevo = new Libro
+        {
+            Id = Libros.Count + 1,
+            Titulo = NuevoTitulo, Genero = NuevoGenero,
+            PrecioAlquiler = NuevoPrecio, Disponibilidad = NuevoDisponible
+        };
+        Libros.Add(nuevo);          ⟦11⟧
+        NuevoTitulo = string.Empty; ⟦12⟧
+    }
+}</script>
+<div class="foot">→ explicación técnica de cada ⟦n⟧ en la página siguiente · explicación en lenguaje humano después</div>
+</section>
+
+<section class="page">
+<div class="sec"><span class="n">04</span><h2>ViewModel · línea a línea</h2><span class="sig">los ⟦n⟧ del código</span></div>
+
+<div class="grid2">
+<ul class="notes">
+ <li><span class="bdp">1</span><span><b>partial</b> + <b>ObservableObject</b>. El Toolkit usa un <b>Source Generator</b> que escribe la otra "mitad" de la clase en tiempo de compilación. Sin <span class="ic">partial</span> → error: no puede añadir código. <span class="ic">ObservableObject</span> ya implementa <span class="ic">INotifyPropertyChanged</span>.</span></li>
+ <li><span class="bdp">2</span><span><b>readonly</b>: solo se asigna en el constructor. Tipo = la <b>interfaz</b>, no la clase.</span></li>
+ <li><span class="bdp">3</span><span><b>ObservableCollection</b> avisa a la vista cuando se <b>añade o borra</b> un elemento (<span class="ic">INotifyCollectionChanged</span>). Con <span class="ic">List</span> la ListView no se refrescaría al hacer <span class="ic">Add</span>.</span></li>
+ <li><span class="bdp">4</span><span><b>Libro?</b> = puede ser <b>null</b> (al arrancar no hay nada seleccionado). Enlazado a <span class="ic">SelectedItem</span> de la ListView.</span></li>
+ <li><span class="bdp">5</span><span><b>NotifyCanExecuteChangedFor</b>: cada vez que cambia el título, le dice al comando "vuelve a mirar si puedes ejecutarte" → el botón se activa/desactiva <b>solo</b>.</span></li>
+ <li><span class="bdp">6</span><span>Opciones del ComboBox (<span class="ic">ItemsSource</span>). Es <span class="ic">List</span> porque no cambia nunca.</span></li>
+</ul>
+<ul class="notes">
+ <li><span class="bdp">7</span><span><b>Inyección de dependencias por constructor</b>: el ViewModel <b>recibe</b> el servicio, no hace <span class="ic">new LibroService()</span>. Consecuencia: ya <b>no tiene constructor vacío</b> → no se puede crear desde XAML.</span></li>
+ <li><span class="bdp">8</span><span>Convierte la <span class="ic">List</span> del servicio en <span class="ic">ObservableCollection</span>. Se asigna a <b>Libros</b> (propiedad, mayúscula), no a <span class="ic">_libros</span>, para que se notifique.</span></li>
+ <li><span class="bdp">9</span><span>Regla de negocio con <b>expression-bodied</b> (<span class="ic">=&gt;</span>). <span class="ic">IsNullOrWhiteSpace</span> también rechaza <span class="ic">"   "</span> (solo espacios). Si es <b>false</b> → botón gris.</span></li>
+ <li><span class="bdp">10</span><span><b>[RelayCommand]</b> genera la propiedad <span class="ic">AgregarLibroCommand</span> (nombre del método + <b>Command</b>). <span class="ic">CanExecute = nameof(...)</span> le dice qué regla consultar.</span></li>
+ <li><span class="bdp">11</span><span><span class="ic">Libros.Add</span> dispara <span class="ic">CollectionChanged</span> → aparece la fila nueva sin hacer nada más.</span></li>
+ <li><span class="bdp">12</span><span>Vaciar <span class="ic">NuevoTitulo</span> limpia el TextBox (TwoWay) <b>y</b> vuelve a deshabilitar el botón (por ⟦5⟧).</span></li>
+</ul>
+</div>
+
+<div class="grid2">
+ <div class="box memo"><h4>Regla del nombre generado</h4>
+  <table style="margin:2px 0"><tr><th>Tú escribes</th><th>El Toolkit genera</th></tr>
+   <tr><td class="mono">private string <b>_nuevoTitulo</b></td><td class="mono">public string <b>NuevoTitulo</b></td></tr>
+   <tr><td class="mono">private Libro? <b>_libroSeleccionado</b></td><td class="mono">public Libro? <b>LibroSeleccionado</b></td></tr>
+   <tr><td class="mono">private void <b>AgregarLibro()</b></td><td class="mono">IRelayCommand <b>AgregarLibroCommand</b></td></tr></table>
+  <p class="small"><b>Campo:</b> "quita el guion, sube la primera". <b>Método:</b> "nombre + Command".<br>En XAML y en el código <b>siempre</b> se usa la versión <b>pública</b>.</p>
+ </div>
+ <div class="box memo"><h4>"P.O.R. favor, compila"</h4>
+  <div class="mn"><b>P</b>artial · <b>O</b>bservableObject · <b>R</b>elayCommand</div>
+  <p class="small">Las 3 piezas del Toolkit que tienen que estar sí o sí. Y para propiedades: <b>[ObservableProperty]</b> sobre un campo <b>privado</b> con <b>_minúscula</b>.</p>
+  <p class="small">Paquete NuGet: <span class="ic">CommunityToolkit.Mvvm</span> (en el .csproj, versión 8.2.2).</p>
+ </div>
+</div>
+
+<div class="box trap"><h4>Detalle fino que cae en examen</h4>
+ <p class="small"><b>ObservableCollection</b> notifica <b>añadir / quitar / mover</b> elementos, pero <b>NO</b> notifica si cambias una propiedad <b>dentro</b> de un Libro existente (ej. <span class="ic">Libros[0].Titulo = "X"</span>), porque <span class="ic">Libro</span> es POCO y no implementa <span class="ic">INotifyPropertyChanged</span>. <br><span class="ic">Id = Libros.Count + 1</span> funciona aquí porque nunca se borra; si se borrasen libros podrían repetirse Ids.</p>
+</div>
+</section>
+
+<!-- ===================== 04 HUMANO ===================== -->
+<section class="page">
+<div class="sec human"><span class="n">04</span><h2>MainViewModel en lenguaje humano</h2><span class="sig">🗣️ 🧑‍💼 el bibliotecario</span></div>
+
+<table class="tr">
+ <tr class="gh"><td colspan="2">① La presentación: quién es el bibliotecario</td></tr>
+ <tr><td class="cd">using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;</td><td class="hu">Trae tres cajas de herramientas: la de <b>propiedades que avisan</b>, la de <b>comandos para botones</b> y la de <b>listas que avisan</b>.</td></tr>
+ <tr><td class="cd">public partial class MainViewModel : ObservableObject</td><td class="hu">Aquí nace el <b>bibliotecario</b>.<br>• <b>partial</b>: "solo escribo una parte de esta clase; <b>el Toolkit escribirá la otra</b> por mí".<br>• <b>: ObservableObject</b>: viene de fábrica con el <b>altavoz 📢</b> para avisar a la pantalla cuando algo cambia.</td></tr>
+
+ <tr class="gh"><td colspan="2">② Lo que tiene sobre la mesa (sus libretas)</td></tr>
+ <tr><td class="cd">private readonly ILibroService _libroService;</td><td class="hu">Un <b>hueco para el almacén</b> que le darán al contratarlo.<br>• <b>private</b>: solo lo usa él. • <b>readonly</b>: se lo dan al nacer y ya no se cambia.<br>• El tipo es el <b>contrato</b> (ILibroService), no un almacén concreto: <b>le vale cualquiera</b> que cumpla el contrato.</td></tr>
+ <tr><td class="cd">[ObservableProperty]
+private ObservableCollection&lt;Libro&gt; _libros = new();</td><td class="hu">La <b>lista de libros</b> que se verá en la tabla. Empieza vacía (<span class="ic">new()</span>).<br>• La pegatina <b>[ObservableProperty]</b> hace que el Toolkit fabrique una versión pública llamada <b>Libros</b> (sin guion, con mayúscula) que avisa a la pantalla.<br>• <b>ObservableCollection</b> = el tablón con campanita 🛎️: avisa al añadir o quitar libros.</td></tr>
+ <tr><td class="cd">[ObservableProperty]
+private Libro? _libroSeleccionado;</td><td class="hu">El libro en el que el cliente <b>ha hecho clic</b> en la tabla. El <b>?</b> dice "puede que no haya ninguno". Genera <b>LibroSeleccionado</b>.</td></tr>
+ <tr><td class="cd">[ObservableProperty]
+[NotifyCanExecuteChangedFor(nameof(AgregarLibroCommand))]
+private string _nuevoTitulo = string.Empty;</td><td class="hu">Lo que el cliente <b>escribe en "Título"</b>. Empieza vacío.<br>La segunda pegatina es la clave del botón: <b>"cada vez que cambie el título, avisa al botón Añadir para que vuelva a comprobar si debe estar encendido o gris"</b>.</td></tr>
+ <tr><td class="cd">[ObservableProperty] private string _nuevoGenero = "";
+[ObservableProperty] private decimal _nuevoPrecio;
+[ObservableProperty] private bool _nuevoDisponible;</td><td class="hu">Las otras tres casillas del formulario: <b>género</b> (texto), <b>precio</b> (dinero, empieza en 0) y <b>disponible</b> (sí/no, empieza en "no"). Cada una genera su versión pública: NuevoGenero, NuevoPrecio, NuevoDisponible.</td></tr>
+ <tr><td class="cd">[ObservableProperty]
+private List&lt;string&gt; _generos = new() { "Aventura", "Tragedia", "Historia", "Social" };</td><td class="hu">Las <b>4 opciones del desplegable</b> de género. Es una List normal porque nunca cambia.</td></tr>
+
+ <tr class="gh"><td colspan="2">③ El día que nace (constructor)</td></tr>
+ <tr><td class="cd">public MainViewModel(ILibroService libroService)</td><td class="hu">Lo que ocurre <b>al contratar al bibliotecario</b>. Fíjate en los paréntesis: <b>exige que le den un almacén</b> para poder nacer. Eso es la <b>inyección de dependencias</b> 🤝.</td></tr>
+ <tr><td class="cd">    _libroService = libroService;</td><td class="hu">Guarda el almacén que le han dado en su hueco de la mesa.</td></tr>
+ <tr><td class="cd">    CargarDatos();</td><td class="hu">Y lo primero que hace al llegar: <b>cargar los libros</b>.</td></tr>
+</table>
+</section>
+
+<section class="page">
+<div class="sec human"><span class="n">04</span><h2>MainViewModel en lenguaje humano (continuación)</h2><span class="sig">🗣️ 🧑‍💼</span></div>
+<table class="tr">
+ <tr class="gh"><td colspan="2">④ Cargar los libros al empezar</td></tr>
+ <tr><td class="cd">private void CargarDatos()</td><td class="hu">Una tarea interna (<b>private</b>: nadie de fuera la llama) que no devuelve nada (<b>void</b>): solo hace.</td></tr>
+ <tr><td class="cd">    var datos = _libroService.ObtenerLibrosMockup();</td><td class="hu">"Almacén, <b>dame la lista de libros</b>." La guarda en <b>datos</b>. <span class="ic">var</span> = C# deduce solo que es una List&lt;Libro&gt;.</td></tr>
+ <tr><td class="cd">    Libros = new ObservableCollection&lt;Libro&gt;(datos);</td><td class="hu">Pasa esos libros a una <b>lista con campanita</b> y la pone en <b>Libros</b> (la pública, con mayúscula). Al usar la pública, el altavoz avisa y <b>la tabla se dibuja con los 4 libros</b>.<br><span class="an">⚠️ Si escribiera _libros, se saltaría el altavoz</span></td></tr>
+
+ <tr class="gh"><td colspan="2">⑤ La regla: ¿se puede añadir?</td></tr>
+ <tr><td class="cd">private bool PuedeAgregar =&gt; !string.IsNullOrWhiteSpace(NuevoTitulo);</td><td class="hu">Léelo así: <b>"Se puede añadir si el título NO está vacío ni es solo espacios."</b><br>• <span class="ic">bool</span>: la respuesta es sí/no. • <span class="ic">=&gt;</span>: se recalcula cada vez que alguien pregunta. • <span class="ic">!</span>: "NO".</td></tr>
+
+ <tr class="gh"><td colspan="2">⑥ El botón: qué pasa al pulsar "Añadir libro"</td></tr>
+ <tr><td class="cd">[RelayCommand(CanExecute = nameof(PuedeAgregar))]</td><td class="hu">Pegatina: "convierte el método de abajo en un <b>timbre para botones</b> 🔔 llamado <b>AgregarLibroCommand</b>, y <b>solo deja tocarlo si PuedeAgregar dice que sí</b>". Si dice que no, el botón sale gris solo.</td></tr>
+ <tr><td class="cd">private void AgregarLibro()</td><td class="hu">Lo que hace el bibliotecario <b>cuando suena el timbre</b>.</td></tr>
+ <tr><td class="cd">    var nuevo = new Libro
+    {
+        Id = Libros.Count + 1,</td><td class="hu"><b>Saca una ficha en blanco</b> y empieza a rellenarla. El número es "<b>cuántos libros hay + 1</b>": había 4, así que el nuevo es el 5.</td></tr>
+ <tr><td class="cd">        Titulo = NuevoTitulo, Genero = NuevoGenero,
+        PrecioAlquiler = NuevoPrecio,
+        Disponibilidad = NuevoDisponible
+    };</td><td class="hu">Copia en la ficha <b>lo que el cliente escribió</b> en el formulario. No hace falta leer las cajas de texto: los hilos invisibles ya lo dejaron en las libretas.</td></tr>
+ <tr><td class="cd">    Libros.Add(nuevo);</td><td class="hu"><b>Cuelga la ficha en el tablón</b>. Suena la campanita 🛎️ y la tabla <b>añade la fila sola</b>, sin escribir ningún código de pantalla.</td></tr>
+ <tr><td class="cd">    NuevoTitulo = string.Empty;</td><td class="hu"><b>Borra el título</b> de su libreta. Efecto doble:<br>1) el hilo vacía la caja de texto de la pantalla;<br>2) como ya no hay título, el botón <b>vuelve a gris</b>.</td></tr>
+</table>
+
+<div class="grid2">
+ <div class="box say"><h4>El ViewModel resumido para cualquiera</h4><p>"El bibliotecario guarda <b>la lista de libros</b>, <b>lo que el cliente está escribiendo</b> y <b>el libro elegido</b>. Al empezar pide los libros al almacén. Solo deja pulsar el botón si hay título, y al pulsarlo crea un libro con lo escrito, lo añade a la lista y limpia el título."</p></div>
+ <div class="box memo"><h4>Lo que NUNCA hace el bibliotecario</h4><p class="small">No toca la pantalla: no escribe <span class="ic">txtTitulo.Text</span>, no pinta filas, no colorea el botón. <b>Solo cambia sus libretas</b>, y los hilos y el altavoz se encargan del resto. Por eso se puede probar sin pantalla.</p></div>
+</div>
+</section>
+
+<!-- ===================== 05 VIEW ===================== -->
+<section class="page">
+<div class="sec"><span class="n">05</span><h2>View · MainWindow.xaml</h2><span class="sig"><span class="k">&lt;Window</span> x:Class=<span class="t">"BibliotecaIntegral.MainWindow"</span><span class="k">&gt;</span></span></div>
+
+<script type="text/x-code" data-lang="xml" data-file="Views/MainWindow.xaml (resumido)"><Window ... Language="es-ES" ⟦1⟧ Title="Biblioteca Digital" Height="450" Width="900">
+  <Grid Margin="15">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/> <RowDefinition Height="*"/> <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Border Grid.Row="0" Background="#F4F4F6" Padding="12">
+      <StackPanel Orientation="Horizontal">
+        <TextBox  Text="{Binding NuevoTitulo, UpdateSourceTrigger=PropertyChanged}"/> ⟦2⟧
+        <ComboBox ItemsSource="{Binding Generos}" SelectedItem="{Binding NuevoGenero}"/> ⟦3⟧
+        <TextBox  Text="{Binding NuevoPrecio, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Content="Disponible" IsChecked="{Binding NuevoDisponible}"/> ⟦4⟧
+        <Button   Content="Añadir libro" Command="{Binding AgregarLibroCommand}"/> ⟦5⟧
+      </StackPanel>
+    </Border>
+
+    <ListView Grid.Row="1" ItemsSource="{Binding Libros}" ⟦6⟧
+              SelectedItem="{Binding LibroSeleccionado}"> ⟦7⟧
+      <ListView.View>
+        <GridView>
+          <GridViewColumn Header="ID"     DisplayMemberBinding="{Binding Id}"/> ⟦8⟧
+          <GridViewColumn Header="Título" DisplayMemberBinding="{Binding Titulo}"/>
+          <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding PrecioAlquiler, StringFormat={}{0:C}}"/> ⟦9⟧
+        </GridView>
+      </ListView.View>
+    </ListView>
+
+    <TextBlock Grid.Row="2">
+      <Run Text="Seleccionado: "/>
+      <Run Text="{Binding LibroSeleccionado.Titulo, FallbackValue='Ninguno'}"/> ⟦10⟧
+    </TextBlock>
+  </Grid>
+</Window></script>
+
+<div class="grid2">
+<ul class="notes">
+ <li><span class="bdp">1</span><span><b>Language="es-ES"</b>: cultura española en los bindings → <span class="ic">{0:C}</span> sale en <b>€</b> y con coma decimal. Sin él, WPF usa en-US ($).</span></li>
+ <li><span class="bdp">2</span><span><b>UpdateSourceTrigger=PropertyChanged</b>: actualiza el ViewModel <b>con cada tecla</b>. Por defecto, <span class="ic">TextBox.Text</span> lo hace en <b>LostFocus</b> (al salir de la caja). Sin esto el botón no se activaría al escribir.</span></li>
+ <li><span class="bdp">3</span><span><b>ItemsSource</b> = la lista de opciones. <b>SelectedItem</b> = la opción elegida (TwoWay).</span></li>
+ <li><span class="bdp">4</span><span>CheckBox → <span class="ic">IsChecked</span> ⇄ <span class="ic">bool</span>.</span></li>
+ <li><span class="bdp">5</span><span><b>Command</b> en lugar de <span class="ic">Click</span>: cero código en el code-behind. El botón se <b>deshabilita solo</b> si <span class="ic">CanExecute</span> = false.</span></li>
+</ul>
+<ul class="notes">
+ <li><span class="bdp">6</span><span><b>ItemsSource</b> enlazado a la <span class="ic">ObservableCollection</span>.</span></li>
+ <li><span class="bdp">7</span><span><b>SelectedItem</b> ⇄ <span class="ic">LibroSeleccionado</span>: al hacer clic en una fila el ViewModel lo sabe.</span></li>
+ <li><span class="bdp">8</span><span>Dentro de cada fila el contexto ya es <b>un Libro</b>, por eso <span class="ic">{Binding Id}</span> y no <span class="ic">{Binding Libros.Id}</span>.</span></li>
+ <li><span class="bdp">9</span><span><b>StringFormat={}{0:C}</b>: formato moneda (<b>C</b> = <i>Currency</i>). El <span class="ic">{}</span> "escapa" las llaves para que XAML no lo confunda con otra extensión de marcado.</span></li>
+ <li><span class="bdp">10</span><span><b>Ruta con punto</b> (<span class="ic">LibroSeleccionado.Titulo</span>). Si es <span class="ic">null</span> el binding falla y muestra <b>FallbackValue</b> = "Ninguno".</span></li>
+</ul>
+</div>
+
+<div class="grid2">
+ <div class="box memo"><h4>Qué propiedad enlaza cada control: "T-I-S-I-C"</h4>
+  <table style="margin:2px 0"><tr><th>Control</th><th>Propiedad</th><th>Tipo VM</th></tr>
+   <tr><td>TextBox</td><td class="mono"><b>T</b>ext</td><td>string / decimal</td></tr>
+   <tr><td>ComboBox / ListView</td><td class="mono"><b>I</b>temsSource + <b>S</b>electedItem</td><td>colección + objeto</td></tr>
+   <tr><td>CheckBox</td><td class="mono"><b>I</b>sChecked</td><td>bool</td></tr>
+   <tr><td>Button</td><td class="mono"><b>C</b>ommand</td><td>ICommand</td></tr></table>
+ </div>
+ <div class="box exam"><h4>Modos de Binding</h4>
+  <p class="small"><b>OneWay</b>: VM → Vista (TextBlock). <b>TwoWay</b>: VM ⇄ Vista (TextBox.Text, SelectedItem, IsChecked lo son por defecto). <b>OneTime</b>: solo al cargar. <b>OneWayToSource</b>: Vista → VM.<br>
+  <b>Mode</b> = hacia dónde viaja el dato. <b>UpdateSourceTrigger</b> = cuándo viaja hacia el VM.</p></div>
+</div>
+</section>
+
+<!-- ===================== 05 HUMANO ===================== -->
+<section class="page">
+<div class="sec human"><span class="n">05</span><h2>MainWindow.xaml en lenguaje humano</h2><span class="sig">🗣️ 🪟 el mostrador</span></div>
+<p class="small">El XAML es como un <b>plano de decoración</b>: dice qué muebles hay en el mostrador y dónde van. Cada <span class="ic">{Binding}</span> es un <b>hilo invisible 🧵</b> hasta una libreta del bibliotecario.</p>
+<table class="tr">
+ <tr class="gh"><td colspan="2">① La ventana y su reparto en 3 franjas</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Window x:Class="BibliotecaIntegral.MainWindow" Language="es-ES"
+        Title="Biblioteca Digital" Height="450" Width="900"&gt;</td><td class="hu">"Esto es una <b>ventana</b>." <b>x:Class</b> la une con su archivo de código (.xaml.cs). <b>Language="es-ES"</b>: habla español, así los precios salen con <b>€</b> y coma. Título de la barra y tamaño en píxeles.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Grid Margin="15"&gt;</td><td class="hu">Una <b>cuadrícula</b> con 15 px de margen. Una ventana solo admite <b>un único hijo</b>, así que todo va dentro de este Grid.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;RowDefinition Height="Auto"/&gt;
+&lt;RowDefinition Height="*"/&gt;
+&lt;RowDefinition Height="Auto"/&gt;</td><td class="hu">Divide la ventana en <b>3 franjas horizontales</b>: arriba <b>lo justo</b> (formulario), en medio <b>todo lo que sobre</b> (tabla), abajo <b>lo justo</b> (barra de estado). 🥪 Pan · relleno · pan.</td></tr>
+
+ <tr class="gh"><td colspan="2">② Franja de arriba: el formulario</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Border Grid.Row="0" Background="#F4F4F6" Padding="12"&gt;
+  &lt;StackPanel Orientation="Horizontal"&gt;</td><td class="hu">Un <b>recuadro gris claro</b> en la franja 0. Dentro, los controles se colocan <b>uno al lado del otro</b>, de izquierda a derecha.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Label Content="Título:"/&gt;</td><td class="hu">Un <b>letrero fijo</b>. No tiene Binding: nunca cambia.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;TextBox Text="{Binding NuevoTitulo,
+         UpdateSourceTrigger=PropertyChanged}"/&gt;</td><td class="hu">Caja para escribir el título, <b>cosida a NuevoTitulo</b>. Lo escrito viaja a la libreta <b>con cada tecla</b>; por eso el botón se enciende nada más escribir la primera letra.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;ComboBox ItemsSource="{Binding Generos}"
+          SelectedItem="{Binding NuevoGenero}"/&gt;</td><td class="hu">Desplegable. <b>ItemsSource</b>: "las opciones salen de Generos". <b>SelectedItem</b>: "la que elija el cliente se apunta en NuevoGenero".</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;TextBox Text="{Binding NuevoPrecio, UpdateSourceTrigger=PropertyChanged}"/&gt;</td><td class="hu">Caja del precio. WPF <b>convierte solo</b> el texto a número; si escribes letras, la caja se pone con <b>borde rojo</b> y no se guarda.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;CheckBox Content="Disponible" IsChecked="{Binding NuevoDisponible}"/&gt;</td><td class="hu">Casilla: <b>marcada = true</b>, sin marcar = false, cosida a NuevoDisponible.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Button Content="Añadir libro"
+        Command="{Binding AgregarLibroCommand}"/&gt;</td><td class="hu">El botón <b>no tiene Click</b>: está conectado al <b>timbre 🔔 AgregarLibroCommand</b>. Al pulsarlo, el bibliotecario ejecuta AgregarLibro(). Si el timbre está tapado, el botón sale <b>gris</b> solo.</td></tr>
+
+ <tr class="gh"><td colspan="2">③ Franja del medio: la tabla</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;ListView Grid.Row="1" ItemsSource="{Binding Libros}"
+          SelectedItem="{Binding LibroSeleccionado}"&gt;</td><td class="hu">La lista, en la franja 1. <b>Cada fila es un libro de Libros</b> (el tablón con campanita). La fila en la que el cliente pincha se apunta en <b>LibroSeleccionado</b>.</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;GridView&gt;
+  &lt;GridViewColumn Header="Título" DisplayMemberBinding="{Binding Titulo}"/&gt;</td><td class="hu">GridView hace que la lista se vea como <b>tabla con columnas</b>. Columna "Título": como <b>cada fila ya es un Libro</b>, aquí <span class="ic">Titulo</span> es el título <b>de ese libro</b>.</td></tr>
+ <tr><td class="cd" data-l="xml">DisplayMemberBinding="{Binding PrecioAlquiler, StringFormat={}{0:C}}"</td><td class="hu">Muestra el precio <b>como moneda</b>: 2.5 → <b>"2,50 €"</b>. La <b>C</b> es de <i>Currency</i> (moneda). El <span class="ic">{}</span> del principio es obligatorio para que XAML no se líe con las llaves.</td></tr>
+
+ <tr class="gh"><td colspan="2">④ Franja de abajo: la barra de estado</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;TextBlock Grid.Row="2"&gt;
+  &lt;Run Text="Seleccionado: "/&gt;
+  &lt;Run Text="{Binding LibroSeleccionado.Titulo, FallbackValue='Ninguno'}"/&gt;</td><td class="hu">Una frase en dos trozos (<b>Run</b>): uno fijo, "Seleccionado: ", y otro cosido al <b>título del libro elegido</b> (el punto significa "de": el Titulo <i>de</i> LibroSeleccionado). Si no hay ninguno elegido, escribe <b>"Ninguno"</b> (FallbackValue = valor de repuesto).</td></tr>
+</table>
+</section>
+
+<!-- ===================== 05b DataContext + 06 traza ===================== -->
+<section class="page">
+<div class="sec"><span class="n">05</span><h2>DataContext · conectar Vista y ViewModel</h2><span class="sig">MainWindow.xaml.cs</span></div>
+
+<div class="grid2" style="align-items:start">
+<script type="text/x-code" data-lang="cs" data-file="Views/MainWindow.xaml.cs">public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent(); ⟦1⟧
+
+        ILibroService libroService = new LibroService(); ⟦2⟧
+        DataContext = new ViewModels.MainViewModel(libroService); ⟦3⟧
+    }
+}</script>
+<script type="text/x-code" data-lang="xml" data-file="Lo que NO se puede hacer aquí"><!-- ✗ Necesita constructor SIN parámetros -->
+<Window.DataContext>
+    <vm:MainViewModel />
+</Window.DataContext>
+
+<!-- App.xaml: qué ventana arranca -->
+<Application StartupUri="Views/MainWindow.xaml"></script>
+</div>
+
+<table class="tr">
+ <tr class="gh"><td colspan="2">🗣️ El code-behind en lenguaje humano: "el día de la inauguración"</td></tr>
+ <tr><td class="cd" data-l="xml">&lt;Application StartupUri="Views/MainWindow.xaml"&gt;</td><td class="hu">(App.xaml) "Cuando arranque el programa, <b>abre esta ventana</b>."</td></tr>
+ <tr><td class="cd">public partial class MainWindow : Window</td><td class="hu">El código que acompaña al mostrador. <b>partial</b>: la otra mitad la genera Visual Studio a partir del XAML. <b>: Window</b>: es una ventana.</td></tr>
+ <tr><td class="cd">InitializeComponent();</td><td class="hu"><b>Monta los muebles</b> dibujados en el XAML (cajas, botón, tabla). Siempre lo primero.</td></tr>
+ <tr><td class="cd">ILibroService libroService = new LibroService();</td><td class="hu"><b>Construye el almacén</b> (el de mentira). La variable es del tipo contrato: "un almacén cualquiera que cumpla ILibroService".</td></tr>
+ <tr><td class="cd">DataContext = new ViewModels.MainViewModel(libroService);</td><td class="hu"><b>Contrata al bibliotecario dándole el almacén</b> 🤝 y cuelga el cartel 🪪 "le atiende: este bibliotecario". Desde ahora, cada <span class="ic">{Binding X}</span> de la ventana busca X <b>en él</b>.</td></tr>
+</table>
+
+<div class="box trap"><h4>La pregunta estrella del examen</h4>
+ <p class="small"><b>¿Por qué el DataContext se asigna en el code-behind y no en el XAML?</b> → Porque <span class="ic">MainViewModel</span> recibe <span class="ic">ILibroService</span> por el constructor. XAML solo sabe instanciar objetos con <b>constructor vacío</b>. Esto <b>no rompe MVVM</b>: el code-behind solo "cablea", no tiene lógica.<br>🗣️ <i>En humano: el XAML solo sabe contratar a gente que no pide nada para empezar. Nuestro bibliotecario exige que le den un almacén, así que hay que contratarlo "a mano" en el código.</i></p>
+ <p class="small">Extra: <span class="ic">d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"</span> (ejemplos 4) solo sirve para el <b>diseñador</b> de Visual Studio (IntelliSense en bindings); se ignora al ejecutar.</p>
+</div>
+</section>
+
+<section class="page">
+<div class="sec"><span class="n">06</span><h2>Traza: el usuario escribe y pulsa "Añadir"</h2><span class="sig"><span class="k">void</span> Flujo()</span></div>
+<table>
+ <tr><th style="width:4%">#</th><th style="width:48%">Qué pasa en el código</th><th>🗣️ En lenguaje humano</th></tr>
+ <tr><td><b>1</b></td><td><span class="ic">App</span> abre <span class="ic">MainWindow</span> → <span class="ic">new LibroService()</span> → <span class="ic">new MainViewModel(service)</span> → <span class="ic">CargarDatos()</span> llena <span class="ic">Libros</span> → la ListView pinta 4 filas. <span class="ic">PuedeAgregar</span> = false → botón gris.</td><td>Abre la biblioteca, se construye el almacén, se contrata al bibliotecario, cuelga las 4 fichas en el tablón. El timbre está tapado porque no hay título.</td></tr>
+ <tr><td><b>2</b></td><td>El usuario teclea "D" → por <span class="ic">UpdateSourceTrigger=PropertyChanged</span> se ejecuta el setter de <span class="ic">NuevoTitulo</span> → <span class="ic">PropertyChanged("NuevoTitulo")</span>.</td><td>El hilo lleva la "D" a la libreta del bibliotecario al instante, y el altavoz anuncia que el título cambió.</td></tr>
+ <tr><td><b>3</b></td><td><span class="ic">[NotifyCanExecuteChangedFor]</span> → <span class="ic">AgregarLibroCommand.NotifyCanExecuteChanged()</span> → WPF consulta <span class="ic">PuedeAgregar</span> → true → botón habilitado.</td><td>El bibliotecario se pregunta "¿ya puedo atender?": hay título, así que destapa el timbre. Botón azul.</td></tr>
+ <tr><td><b>4</b></td><td>ComboBox, precio y CheckBox rellenan <span class="ic">NuevoGenero</span>, <span class="ic">NuevoPrecio</span>, <span class="ic">NuevoDisponible</span> (TwoWay).</td><td>El cliente rellena el resto y los hilos lo apuntan en las libretas.</td></tr>
+ <tr><td><b>5</b></td><td>Clic → <span class="ic">AgregarLibroCommand.Execute()</span> → <span class="ic">AgregarLibro()</span> → <span class="ic">new Libro{…}</span> → <span class="ic">Libros.Add()</span> → <span class="ic">CollectionChanged</span> → fila nueva.</td><td>Suena el timbre, el bibliotecario rellena una ficha con lo apuntado, la cuelga, suena la campanita y aparece la fila 5.</td></tr>
+ <tr><td><b>6</b></td><td><span class="ic">NuevoTitulo = ""</span> → TextBox vacío → <span class="ic">PuedeAgregar</span> = false → botón deshabilitado. (Género, precio y check <b>no</b> se limpian.)</td><td>Borra el título de su libreta: la caja se vacía y el timbre se vuelve a tapar. Lo demás se queda como estaba.</td></tr>
+</table>
+
+<div class="arch" style="grid-template-columns:1fr 40px 1fr 40px 1fr 40px 1fr">
+ <div class="layer L-b"><div class="t">⌨️ Teclas</div><div class="f">TextBox.Text</div></div>
+ <div class="arr"><span class="a">→</span>Binding</div>
+ <div class="layer L-vm"><div class="t">NuevoTitulo</div><div class="f">setter + PropertyChanged</div></div>
+ <div class="arr"><span class="a">→</span>avisa</div>
+ <div class="layer L-vm"><div class="t">PuedeAgregar?</div><div class="f">CanExecute</div></div>
+ <div class="arr"><span class="a">→</span>pinta</div>
+ <div class="layer L-v"><div class="t">Botón azul/gris</div><div class="f">IsEnabled automático</div></div>
+</div>
+</section>
+
+<!-- ===================== 07 MAGIA ===================== -->
+<section class="page">
+<div class="sec"><span class="n">07</span><h2>Lo que el Toolkit escribe por ti</h2><span class="sig">Source Generator</span></div>
+<p>Esto es lo que había que escribir <b>a mano</b> en MVVM tradicional (ejemplos 01–03). Si te preguntan "¿qué hace <span class="ic">[ObservableProperty]</span>?", la respuesta es este código. 🗣️ <i>En humano: las pegatinas son como un ayudante que escribe por ti las 20 líneas aburridas que siempre son iguales.</i></p>
+
+<div class="grid2" style="align-items:start">
+<div>
+<script type="text/x-code" data-lang="cs" data-file="Tradicional (a mano)">public class MainViewModel : INotifyPropertyChanged
+{
+    private string _nuevoTitulo = "";
+    public string NuevoTitulo
+    {
+        get { return _nuevoTitulo; }
+        set
+        {
+            if (_nuevoTitulo != value)   // solo si cambia
+            {
+                _nuevoTitulo = value;
+                OnPropertyChanged();     // ¡el altavoz!
+                AgregarLibroCommand.RaiseCanExecuteChanged();
+            }
+        }
+    }
+    public ICommand AgregarLibroCommand { get; }
+    public MainViewModel()
+    {
+        AgregarLibroCommand = new RelayCommand(AgregarLibro, () => PuedeAgregar);
+    }
+
+    // Boilerplate obligatorio de INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+}</script>
+</div>
+<div>
+<script type="text/x-code" data-lang="cs" data-file="Toolkit (lo que escribes tú)">public partial class MainViewModel : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AgregarLibroCommand))]
+    private string _nuevoTitulo = "";
+
+    private bool PuedeAgregar => !string.IsNullOrWhiteSpace(NuevoTitulo);
+
+    [RelayCommand(CanExecute = nameof(PuedeAgregar))]
+    private void AgregarLibro() { /* ... */ }
+}</script>
+<div class="box say"><h4>El setter tradicional, leído en voz alta</h4><p class="small">"Cuando alguien quiera <b>cambiar</b> el título: si el nuevo valor es <b>distinto</b> del que tengo, lo guardo, <b>grito por el altavoz</b> que el título cambió y le digo al botón que vuelva a comprobar si puede encenderse."</p></div>
+<div class="box memo"><h4>El altavoz 📢</h4><p class="small"><b>INotifyPropertyChanged</b> = la clase <b>grita</b> "¡ha cambiado la propiedad X!" y la Vista, que escucha el evento <span class="ic">PropertyChanged</span>, se actualiza.<br><b>[CallerMemberName]</b> rellena solo el nombre de la propiedad que llama → no hay que escribir <span class="ic">"NuevoTitulo"</span> a mano.</p></div>
+<div class="box tip"><h4>RelayCommand = el puente</h4><p class="small">Implementa <span class="ic">ICommand</span>: <b>Execute</b> (qué hacer), <b>CanExecute</b> (¿se puede?), evento <b>CanExecuteChanged</b> (avisa para volver a preguntar). En el tradicional se programa a mano (<span class="ic">RelayCommand.cs</span>, guarda un <span class="ic">Action</span>); con Toolkit viene hecho.</p></div>
+</div>
+</div>
+
+<h3>Atributos del Toolkit: tabla rápida</h3>
+<table>
+ <tr><th style="width:34%">Atributo / clase</th><th style="width:18%">Se pone sobre…</th><th>Qué hace</th><th style="width:22%">🗣️ En humano</th></tr>
+ <tr><td class="mono">ObservableObject</td><td>la clase (herencia)</td><td>Base que implementa INotifyPropertyChanged y da <span class="ic">SetProperty()</span>.</td><td>Trae el altavoz de fábrica.</td></tr>
+ <tr><td class="mono">[ObservableProperty]</td><td>campo privado <span class="ic">_x</span></td><td>Genera la propiedad pública <span class="ic">X</span> con notificación de cambio.</td><td>"Haz pública esta libreta y que avise al cambiar."</td></tr>
+ <tr><td class="mono">[NotifyCanExecuteChangedFor(nameof(C))]</td><td>campo observable</td><td>Al cambiar el campo, reevalúa el <span class="ic">CanExecute</span> del comando C.</td><td>"Si cambio, que el botón C se lo replantee."</td></tr>
+ <tr><td class="mono">[NotifyPropertyChangedFor(nameof(P))]</td><td>campo observable</td><td>Al cambiar, notifica también otra propiedad P (calculada). No se usa en el examen.</td><td>"Si cambio, avisa también de P."</td></tr>
+ <tr><td class="mono">[RelayCommand]</td><td>método privado <span class="ic">Hacer()</span></td><td>Genera <span class="ic">HacerCommand</span> (IRelayCommand).</td><td>"Convierte esta acción en un timbre."</td></tr>
+ <tr><td class="mono">[RelayCommand(CanExecute = nameof(Puede))]</td><td>método</td><td>El comando solo se ejecuta (y el botón solo se habilita) si <span class="ic">Puede</span> es true.</td><td>"…y tápalo si Puede dice que no."</td></tr>
+</table>
+</section>
+
+<!-- ===================== 08 EVOLUCIÓN ===================== -->
+<section class="page">
+<div class="sec"><span class="n">08</span><h2>La evolución: de 01 a BibliotecaIntegral</h2><span class="sig">versiones de clase</span></div>
+<p>Los ejemplos de clase son <b>la misma app que va mejorando</b>. El examen (BibliotecaIntegral) es el <b>último escalón</b>: Toolkit + Inyección + Servicio + Colección.</p>
+
+<table>
+ <tr><th>Versión</th><th>Cómo notifica</th><th>Cómo actúa el botón</th><th>DataContext</th><th>¿MVVM?</th></tr>
+ <tr><td><b>01</b> Binding simple</td><td>INotifyPropertyChanged a mano</td><td>— (no hay botón)</td><td>XAML <span class="ic">&lt;local:MainViewModel/&gt;</span></td><td class="yes">Sí</td></tr>
+ <tr><td><b>02</b> "NO es MVVM"</td><td>Igual</td><td><span class="ic">Click="BotonLimpiar_Click"</span> en code-behind → <span class="ic">if (DataContext is MainViewModel vm) vm.LimpiarMensaje();</span></td><td>XAML</td><td class="no">Híbrido</td></tr>
+ <tr><td><b>03</b> Tradicional</td><td>Igual</td><td><span class="ic">Command="{Binding LimpiarComando}"</span> + <b>RelayCommand.cs</b> propio</td><td>XAML</td><td class="yes">Sí</td></tr>
+ <tr><td><b>4</b> CommunityToolkit</td><td><span class="ic">[ObservableProperty]</span></td><td><span class="ic">[RelayCommand]</span> + CanExecute</td><td>Code-behind <span class="ic">new MainViewModel()</span></td><td class="yes">Sí</td></tr>
+ <tr><td><b>4</b> Inyección</td><td><span class="ic">[ObservableProperty]</span></td><td>—</td><td>Code-behind <span class="ic">new MainViewModel(servicio)</span></td><td class="yes">Sí</td></tr>
+ <tr style="outline:2px solid var(--gold)"><td><b>EXAMEN</b></td><td>Toolkit + ObservableCollection</td><td><span class="ic">AgregarLibroCommand</span> con CanExecute</td><td>Code-behind con <b>ILibroService</b></td><td class="yes">Sí ⭐</td></tr>
+</table>
+
+<div class="box say"><h4>La evolución contada como una historia</h4>
+<p class="small"><b>01:</b> el mostrador y el bibliotecario se comunican por hilos, pero no hay botón. · <b>02:</b> se pone un botón, pero el mostrador va <b>en persona</b> a hablar con el bibliotecario (Click en el code-behind): funciona, pero el mostrador "sabe demasiado". · <b>03:</b> se instala un <b>timbre</b> (Command) fabricado a mano. · <b>4 Toolkit:</b> un ayudante (las pegatinas) fabrica los hilos y el timbre solo. · <b>4 Inyección:</b> al bibliotecario <b>le dan</b> el almacén. · <b>Examen:</b> todo junto, más un tablón con campanita.</p></div>
+
+<div class="grid2">
+ <div class="box trap"><h4>¿Por qué la 02 "NO es MVVM"?</h4><p class="small">Porque la Vista tiene un <b>manejador de evento</b> en el code-behind que llama al ViewModel. La Vista "conoce" el tipo del ViewModel y hay lógica fuera de él. Funciona, pero acopla. La solución es <b>ICommand</b> (versión 03).</p></div>
+ <div class="box exam"><h4>Inyección de dependencias en una frase</h4><p class="small">"Una clase <b>no crea</b> lo que necesita: <b>se lo dan</b> desde fuera (por el constructor)". El ViewModel depende de una <b>abstracción</b> (<span class="ic">ILibroService</span>) → podemos pasarle el simulado o el real. Ventaja: <b>tests</b> y <b>cambio de implementación</b> sin tocar el ViewModel.</p></div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<script type="text/x-code" data-lang="cs" data-file="03 · RelayCommand.cs (tradicional)">public class RelayCommand : ICommand
+{
+    private readonly Action _execute;   // el método a ejecutar
+    public RelayCommand(Action execute) { _execute = execute; }
+
+    public bool CanExecute(object parameter) { return true; }
+    public void Execute(object parameter) { _execute(); }
+
+    public event EventHandler CanExecuteChanged
+    {
+        add    { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
+}</script>
+<script type="text/x-code" data-lang="cs" data-file="4 · Inyección (mismo patrón que el examen)">public interface IServicioMensajes { string ObtenerSaludo(); }
+
+public class ServicioMensajesSimulado : IServicioMensajes
+{
+    public string ObtenerSaludo() { return "¡Hola desde el servicio simulado!"; }
+}
+
+// MainWindow.xaml.cs
+IServicioMensajes miServicio = new ServicioMensajesSimulado();
+DataContext = new MainViewModel(miServicio);
+// ¡IMPOSIBLE con <vm:MainViewModel /> en XAML!</script>
+</div>
+<div class="box memo"><h4>Paralelismo examen ⇄ ejemplo de clase</h4>
+ <p class="small"><span class="ic">IServicioMensajes</span> ↔ <span class="ic">ILibroService</span> · <span class="ic">ServicioMensajesSimulado</span> ↔ <span class="ic">LibroService</span> · <span class="ic">ObtenerSaludo()</span> ↔ <span class="ic">ObtenerLibrosMockup()</span> · <span class="ic">Mensaje</span> ↔ <span class="ic">Libros</span>. <b>Si entiendes uno, entiendes el otro.</b></p></div>
+</section>
+
+<!-- ===================== 09 TRAMPAS ===================== -->
+<section class="page">
+<div class="sec"><span class="n">09</span><h2>"¿Qué pasa si…?" · preguntas tipo examen</h2><span class="sig"><span class="k">try</span> { } <span class="k">catch</span></span></div>
+
+<div class="grid2">
+<div>
+ <div class="qa"><div class="q"><span class="ix">Q1</span>…quito <span class="ic">partial</span> de MainViewModel?</div><div class="a"><b>No compila</b>. El generador necesita añadir la otra parte de la clase (propiedades y comandos). Además <span class="ic">NuevoTitulo</span> y <span class="ic">AgregarLibroCommand</span> no existirían.<br>🗣️ <i>El ayudante no tiene dónde escribir su mitad.</i></div></div>
+ <div class="qa"><div class="q"><span class="ix">Q2</span>…uso <span class="ic">List&lt;Libro&gt;</span> en vez de ObservableCollection?</div><div class="a">Carga los 4 iniciales, pero al pulsar <b>Añadir</b> la ListView <b>no muestra</b> el nuevo libro (List no lanza CollectionChanged), aunque sí está en memoria.<br>🗣️ <i>Tablón sin campanita: la ficha se cuelga, pero nadie se entera.</i></div></div>
+ <div class="qa"><div class="q"><span class="ix">Q3</span>…quito <span class="ic">UpdateSourceTrigger=PropertyChanged</span> del título?</div><div class="a">El valor solo llega al VM al <b>perder el foco</b>. El botón sigue gris mientras escribes y se activa al salir del TextBox.<br>🗣️ <i>El hilo solo tira cuando sueltas la casilla.</i></div></div>
+ <div class="qa"><div class="q"><span class="ix">Q4</span>…quito <span class="ic">[NotifyCanExecuteChangedFor]</span>?</div><div class="a">El comando nunca se entera de que el título cambió → el botón se queda <b>siempre deshabilitado</b>.<br>🗣️ <i>Nadie le dice al bibliotecario que vuelva a mirar el timbre.</i></div></div>
+ <div class="qa"><div class="q"><span class="ix">Q5</span>…escribo "abc" en el Precio?</div><div class="a">La conversión string→decimal falla: <b>borde rojo</b> (error de validación) y <span class="ic">NuevoPrecio</span> <b>conserva su valor anterior</b>. No hay excepción ni se cuelga.</div></div>
+ <div class="qa"><div class="q"><span class="ix">Q6</span>…escribo <span class="ic">PrecioAlquiler = 2.50</span> sin la m?</div><div class="a">Error de compilación <b>CS0664</b>: un literal double no se convierte implícitamente a decimal.</div></div>
+</div>
+<div>
+ <div class="qa"><div class="q"><span class="ix">Q7</span>…pongo el ViewModel en <span class="ic">&lt;Window.DataContext&gt;</span>?</div><div class="a">Error: <b>no tiene constructor sin parámetros</b>. Por eso se hace en el code-behind con <span class="ic">new MainViewModel(libroService)</span>.</div></div>
+ <div class="qa"><div class="q"><span class="ix">Q8</span>…en XAML escribo <span class="ic">{Binding _nuevoTitulo}</span>?</div><div class="a">No funciona (no da excepción, solo un error de binding en la ventana de Salida). Binding solo ve <b>propiedades públicas</b>: hay que usar <span class="ic">NuevoTitulo</span>.<br>🗣️ <i>Es la libreta privada: el hilo no llega.</i></div></div>
+ <div class="qa"><div class="q"><span class="ix">Q9</span>…en <span class="ic">CargarDatos</span> asigno <span class="ic">_libros = …</span> en vez de <span class="ic">Libros = …</span>?</div><div class="a">Se salta el setter generado → <b>no se notifica</b>. Si la vista ya estaba enlazada seguiría mostrando la colección vieja. (El Toolkit avisa con un warning.)</div></div>
+ <div class="qa"><div class="q"><span class="ix">Q10</span>…no hay libro seleccionado?</div><div class="a"><span class="ic">LibroSeleccionado</span> es null → <span class="ic">LibroSeleccionado.Titulo</span> no se resuelve → se muestra el <b>FallbackValue</b> "Ninguno".</div></div>
+ <div class="qa"><div class="q"><span class="ix">Q11</span>…dejo <span class="ic">Libro</span> como internal?</div><div class="a"><b>Accesibilidad incoherente</b>: una interfaz/propiedad pública no puede exponer un tipo menos accesible.</div></div>
+ <div class="qa"><div class="q"><span class="ix">Q12</span>…escribo solo espacios en el título?</div><div class="a"><span class="ic">IsNullOrWhiteSpace("   ")</span> = true → <span class="ic">PuedeAgregar</span> = false → botón gris. Con <span class="ic">IsNullOrEmpty</span> sí dejaría añadir.</div></div>
+</div>
+</div>
+
+<h3>Preguntas de teoría pura (respuesta corta)</h3>
+<table>
+ <tr><th style="width:42%">Pregunta</th><th>Respuesta en 1 línea</th></tr>
+ <tr><td>¿Qué interfaz permite que la vista se entere de un cambio de propiedad?</td><td class="mono">INotifyPropertyChanged (evento PropertyChanged)</td></tr>
+ <tr><td>¿Y de un cambio en una colección?</td><td class="mono">INotifyCollectionChanged → ObservableCollection&lt;T&gt;</td></tr>
+ <tr><td>¿Qué interfaz implementa un comando?</td><td class="mono">ICommand: Execute, CanExecute, CanExecuteChanged</td></tr>
+ <tr><td>¿Qué es el code-behind?</td><td>El <span class="ic">.xaml.cs</span>: clase <span class="ic">partial</span> de la ventana. En MVVM solo debe tener <span class="ic">InitializeComponent()</span> y el DataContext.</td></tr>
+ <tr><td>¿Qué es un Source Generator?</td><td>Código que el compilador genera automáticamente a partir de atributos (por eso <span class="ic">partial</span>).</td></tr>
+ <tr><td>¿Para qué sirve <span class="ic">nameof()</span>?</td><td>Devuelve el nombre como string, comprobado por el compilador (si renombras, no se rompe).</td></tr>
+ <tr><td>¿Una Window puede tener varios hijos directos?</td><td>No, <b>uno solo</b> (por eso hay un Grid que contiene todo).</td></tr>
+</table>
+</section>
+
+<!-- ===================== 10 CHULETA ===================== -->
+<section class="page">
+<div class="sec"><span class="n">10</span><h2>Chuleta final · repasar 10 min antes</h2><span class="sig"><span class="k">static class</span> <span class="t">Chuleta</span></span></div>
+
+<div class="grid3">
+ <div class="box" style="border-color:#007ACC"><h4><span class="pill p-v">VIEW</span> 🪟 MainWindow.xaml</h4>
+  <ul class="small" style="padding-left:14px">
+   <li>Grid 3 filas: Auto / * / Auto</li>
+   <li><span class="ic">Text="{Binding X, UpdateSourceTrigger=PropertyChanged}"</span></li>
+   <li><span class="ic">ItemsSource</span> + <span class="ic">SelectedItem</span></li>
+   <li><span class="ic">Command="{Binding XCommand}"</span></li>
+   <li><span class="ic">StringFormat={}{0:C}</span> + <span class="ic">Language="es-ES"</span></li>
+   <li><span class="ic">FallbackValue='Ninguno'</span></li>
+  </ul></div>
+ <div class="box" style="border-color:#68217A"><h4><span class="pill p-vm">VM</span> 🧑‍💼 MainViewModel.cs</h4>
+  <ul class="small" style="padding-left:14px">
+   <li><span class="ic">partial</span> + <span class="ic">: ObservableObject</span></li>
+   <li><span class="ic">[ObservableProperty] private T _x;</span></li>
+   <li><span class="ic">ObservableCollection&lt;Libro&gt;</span></li>
+   <li><span class="ic">[NotifyCanExecuteChangedFor]</span></li>
+   <li><span class="ic">[RelayCommand(CanExecute=…)]</span></li>
+   <li>Constructor recibe <span class="ic">ILibroService</span></li>
+  </ul></div>
+ <div class="box" style="border-color:#2E8B57"><h4><span class="pill p-s">SVC</span>+<span class="pill p-m">MODEL</span> 📦📇</h4>
+  <ul class="small" style="padding-left:14px">
+   <li><span class="ic">interface ILibroService</span> = contrato</li>
+   <li><span class="ic">LibroService : ILibroService</span></li>
+   <li>Devuelve <span class="ic">List&lt;Libro&gt;</span> mockup</li>
+   <li><span class="ic">Libro</span>: POCO, <b>public</b></li>
+   <li><span class="ic">decimal</span> + sufijo <span class="ic">m</span></li>
+   <li><span class="ic">= string.Empty</span> (Nullable)</li>
+  </ul></div>
+</div>
+
+<script type="text/x-code" data-lang="cs" data-file="Esqueleto mínimo que debes saber escribir de memoria">// 1. MODEL  (la ficha)
+public class Libro { public int Id { get; set; } public string Titulo { get; set; } = string.Empty; public decimal PrecioAlquiler { get; set; } }
+
+// 2. SERVICE  (el contrato y el almacén)
+public interface ILibroService { List<Libro> ObtenerLibrosMockup(); }
+public class LibroService : ILibroService { public List<Libro> ObtenerLibrosMockup() => new() { new Libro { Id = 1, Titulo = "Berserk", PrecioAlquiler = 2.50m } }; }
+
+// 3. VIEWMODEL  (el bibliotecario)
+public partial class MainViewModel : ObservableObject
+{
+    private readonly ILibroService _libroService;
+    [ObservableProperty] private ObservableCollection<Libro> _libros = new();
+    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AgregarLibroCommand))] private string _nuevoTitulo = string.Empty;
+
+    public MainViewModel(ILibroService s) { _libroService = s; Libros = new(_libroService.ObtenerLibrosMockup()); }
+
+    private bool PuedeAgregar => !string.IsNullOrWhiteSpace(NuevoTitulo);
+    [RelayCommand(CanExecute = nameof(PuedeAgregar))]
+    private void AgregarLibro() { Libros.Add(new Libro { Id = Libros.Count + 1, Titulo = NuevoTitulo }); NuevoTitulo = string.Empty; }
+}
+
+// 4. CODE-BEHIND  (la inauguración)
+InitializeComponent();
+DataContext = new MainViewModel(new LibroService());</script>
+
+<div class="grid2">
+ <div class="box memo"><h4>Todas las reglas mnemotécnicas</h4>
+  <ul class="small" style="padding-left:14px;margin:0">
+   <li><b>📇 Ficha · 📦 Almacén · 🧑‍💼 Bibliotecario · 🪟 Mostrador</b></li>
+   <li><b>🧵 Binding = hilo · 🔔 Command = timbre · 📢 = altavoz · 🛎️ = tablón con campanita</b></li>
+   <li><b>Model SABE · View MUESTRA · ViewModel MANDA · Binding es el CABLE</b></li>
+   <li>Carpetas: <b>Mi Vecino Sirve Vino</b> · Orden: <b>Los Indios Siempre Ven Vacas Contentas</b></li>
+   <li>Toolkit: <b>P.O.R. favor</b> (Partial, ObservableObject, RelayCommand)</li>
+   <li>Nombres: <b>_campo → Campo</b> · <b>Metodo() → MetodoCommand</b></li>
+   <li>Controles: <b>T-I-S-I-C</b> · Grid: <b>bocadillo</b> Auto / * / Auto · <b>m</b> de money</li>
+  </ul></div>
+ <div class="box exam"><h4>Las 5 frases que tienes que poder escribir</h4>
+  <ol class="small" style="padding-left:16px;margin:0">
+   <li>MVVM separa la interfaz (View) de la lógica (ViewModel) y los datos (Model), comunicados por Data Binding y Comandos.</li>
+   <li>ObservableCollection notifica a la vista al añadir o eliminar elementos.</li>
+   <li>[ObservableProperty] genera la propiedad pública con notificación de cambio; la clase debe ser partial.</li>
+   <li>[RelayCommand] genera un ICommand; CanExecute habilita o deshabilita el botón automáticamente.</li>
+   <li>Con inyección por constructor el ViewModel depende de una interfaz, por eso el DataContext se asigna en el code-behind.</li>
+  </ol></div>
+</div>
+<div class="foot">¡Suerte! · <span style="color:var(--cs)">return</span> aprobado;</div>
+</section>
+
+<script>
+(function(){
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const KW = new Set('public private protected internal static readonly class interface namespace using new void return get set var this partial override virtual abstract event null true false string int bool decimal double object async await value is'.split(' '));
+  const CTL = new Set('if else for foreach while return switch case break try catch throw'.split(' '));
+  const TY = new Set('Libro ILibroService LibroService MainViewModel ObservableObject ObservableCollection List Window MainWindow ICommand RelayCommand IRelayCommand Action EventHandler CommandManager INotifyPropertyChanged PropertyChangedEventHandler PropertyChangedEventArgs CallerMemberName IServicioMensajes ServicioMensajesSimulado ObservableProperty NotifyCanExecuteChangedFor ViewModels'.split(' '));
+  const badge = n => '<span class="bd">'+n+'</span>';
+  function cs(src){
+    const re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:[^"\\]|\\.)*")|(⟦\d+⟧)|(\b\d+(?:\.\d+)?[mMfFdL]?\b)|([A-Za-z_][A-Za-z0-9_]*)|(\s+)|([\s\S])/g;
+    let out='',m;
+    while((m=re.exec(src))){
+      if(m[1]) out+='<span class="cm">'+esc(m[1]).replace(/⟦(\d+)⟧/g,(a,n)=>'</span>'+badge(n)+'<span class="cm">')+'</span>';
+      else if(m[2]) out+='<span class="st">'+esc(m[2])+'</span>';
+      else if(m[3]) out+=badge(m[3].slice(1,-1));
+      else if(m[4]) out+='<span class="nu">'+m[4]+'</span>';
+      else if(m[5]){
+        const w=m[5], rest=src.slice(re.lastIndex);
+        if(CTL.has(w)) out+='<span class="ctl">'+w+'</span>';
+        else if(KW.has(w)) out+='<span class="kw">'+w+'</span>';
+        else if(TY.has(w)) out+='<span class="ty">'+w+'</span>';
+        else if(/^\s*\(/.test(rest)) out+='<span class="me">'+w+'</span>';
+        else if(/^_/.test(w)) out+='<span class="id">'+w+'</span>';
+        else out+=w;
+      }
+      else if(m[6]) out+=m[6];
+      else out+='<span class="pu">'+esc(m[7])+'</span>';
+    }
+    return out.replace(/(<span class="pu">\[<\/span>)(?:<span class="ty">)?(\w+)(?:<\/span>)?/g,'$1<span class="at">$2</span>');
+  }
+  function xml(src){
+    const re = /(<!--[\s\S]*?-->)|(⟦\d+⟧)|(<\/?)([\w:.]+)|("[^"]*")|([\w:.]+)(?==)|(\/?>)|(\s+)|([\s\S])/g;
+    let out='',m;
+    while((m=re.exec(src))){
+      if(m[1]) out+='<span class="cm">'+esc(m[1])+'</span>';
+      else if(m[2]) out+=badge(m[2].slice(1,-1));
+      else if(m[3]) out+='<span class="pu">'+esc(m[3])+'</span><span class="tg">'+m[4]+'</span>';
+      else if(m[5]){
+        let v=esc(m[5]);
+        v=v.replace(/\{(Binding|d:DesignInstance)([^}]*)\}/g,(a,k,r)=>'<span class="at">{'+k+'</span><span class="id">'+r.replace(/(UpdateSourceTrigger|StringFormat|FallbackValue|Type|Mode)=/g,'<span class="ty">$1</span>=')+'</span><span class="at">}</span>');
+        out+='<span class="st">'+v+'</span>';
+      }
+      else if(m[6]) out+='<span class="id">'+m[6]+'</span>';
+      else if(m[7]) out+='<span class="pu">'+esc(m[7])+'</span>';
+      else if(m[8]) out+=m[8];
+      else out+=esc(m[9]);
+    }
+    return out;
+  }
+  document.querySelectorAll('script[type="text/x-code"]').forEach(s=>{
+    const lang=s.dataset.lang, file=s.dataset.file||'';
+    const src=s.textContent.replace(/^\n/,'').replace(/\s+$/,'');
+    const d=document.createElement('div'); d.className='code';
+    d.innerHTML='<div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><span class="f">'+esc(file)+'</span><span class="l'+(lang==='xml'?' x':'')+'">'+(lang==='xml'?'XAML':'C#')+'</span></div><pre>'+(lang==='xml'?xml(src):cs(src))+'</pre>';
+    s.replaceWith(d);
+  });
+  document.querySelectorAll('td.cd').forEach(td=>{
+    const t=td.textContent; td.innerHTML = td.dataset.l==='xml' ? xml(t) : cs(t);
+  });
+  document.querySelectorAll('.foot,.sig').forEach(e=>{e.innerHTML=e.innerHTML.replace(/⟦(\w+)⟧/g,'<span class="bd">$1</span>');});
+})();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.josemanuel.damflix.ui.screens
+package com.josemanuel.damflix.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -71,11 +71,7 @@ fun FormularioScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()   // ocupa toda la pantalla
             .padding(80.dp)  // margen interior de 24 dp
     ) {
-        // Título de la pantalla ("Nueva película")
-        Text(
-            text = stringResource(R.string.form_titulo_pantalla),
-            style = MaterialTheme.typography.headlineSmall
-        )
+
         Spacer(modifier = Modifier.height(16.dp))
         // Campo: título, el ejercicio pide usar OutlinedTextField
         OutlinedTextField(

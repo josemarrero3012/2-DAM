@@ -11,7 +11,6 @@
     <string name="bienvenida_texto">Tu diario personal de cine: registra las películas que has visto, las que tienes pendientes y tus favoritas.</string>
 
     <!-- Fase 2 Formulario -->
-    <string name="form_titulo_pantalla">Nueva película</string>
     <string name="form_label_titulo">Título de la película</string>
     <string name="form_label_director">Director/a</string>
     <string name="form_label_año">Año de estreno</string>
