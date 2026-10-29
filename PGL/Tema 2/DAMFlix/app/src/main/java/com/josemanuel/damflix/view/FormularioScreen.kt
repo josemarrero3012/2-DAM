@@ -40,8 +40,9 @@ mutableStateOf.
 4) Validación Dinámica: El botón "Guardar Película" debe permanecer
 deshabilitado si el título o director están vacíos.*/
 
-@Composable
-fun FormularioScreen(modifier: Modifier = Modifier) {
+@Composable //ahora necesito que el formulario comunique los datos
+//onGuardar va a ser la función que recibe el título, director, año, y si la película se ha visto
+fun FormularioScreen(modifier: Modifier = Modifier, onGuardar: (String, String, Int, Boolean) -> Unit) {
 
     //Estado de las variables
     //remember: conserva el valor entre recomposiciones
@@ -123,6 +124,12 @@ fun FormularioScreen(modifier: Modifier = Modifier) {
         //botón para guardar la película
         Button(
             onClick = { //al hacer click...
+                onGuardar(
+                    titulo,
+                    director,
+                    año.toIntOrNull() ?: 0, //si no se puede convertir o es nulo, valdrá 0
+                    peliculaVista
+                )
                 //muestra un mensaje breve de confirmación
                 Toast.makeText(
                     context,
@@ -151,6 +158,10 @@ fun FormularioScreen(modifier: Modifier = Modifier) {
 fun FormularioScreenPreview() {
     // El tema da los colores y tipografías de la app a la vista previa
     DAMFlixTheme {
-        FormularioScreen()
+        FormularioScreen(
+            //la vista previa solo enseña el formulario; no necesita guardar una película.
+            //esta función vacía ocupa el lugar del onGuardar obligatorio.
+            onGuardar = { _, _, _, _ -> }
+        )
     }
 }

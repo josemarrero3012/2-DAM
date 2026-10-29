@@ -33,27 +33,12 @@ import com.josemanuel.damflix.model.Pelicula
 import com.josemanuel.damflix.ui.theme.DAMFlixTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.state.ToggleableState
 
 
-@Composable
-fun CatalogoScreen() {
-    val peliculas = remember {
-        mutableStateListOf(
-            Pelicula(1, "Interstellar", "Christopher Nolan", 2014),
-            Pelicula(2, "Coherence", "James Ward Byrkit", 2014),
-            Pelicula(3, "Clayface", "James Watkins", 2026),
-            Pelicula(4, "La cura del bienestar", "Gore Verbinski", 2017),
-            Pelicula(5, "Whalefall", "Brian Duffield", 2026),
-            Pelicula(6, "Mother!", "Matt Reeves", 2017),
-            Pelicula(7, "American Psycho", "Mary Harron", 2000),
-            Pelicula(8, "The Amazing Spider-Man 2", "Marc Webb", 2014),
-            Pelicula(9, "El Camino: A Breaking Bad Movie", "Vince Gilligan", 2019),
-            Pelicula(10, "La invitación", "Karyn Kusama", 2015),
-            Pelicula(11, "El lobo de Wall Street", "Martin Scorsese", 2013),
-            Pelicula(12, "El maquinista", "Brad Anderson", 2004)
-        )
-    }
-
+@Composable  //"onToggleFavorito: (Pelicula) -> Unit" Este parámetro contiene una función que se ejecutará cuando se pulse un corazón
+//Necesitamos enviarle la película para que quien gestione la lista sepa qué película debe cambiar de favorita a no favorita, o al revés. El nombre onToggleFavorito lo elegimos nosotros; no es una función especial de Compose.
+fun CatalogoScreen(peliculas: List<Pelicula>, onToggleFavorito: (Pelicula) -> Unit) {
     // Requisito 2: LazyColumn que es una lista vertical
     LazyColumn(
         modifier = Modifier
@@ -96,25 +81,27 @@ fun CatalogoScreen() {
                     IconButton(
                         //al pulsar marcar o desmarcar como favorita
                         onClick = {
-                            //al clickarlo, primero ha de buscar la posición de esta película en la lista por su id
-                            val posicion = peliculas.indexOfFirst { it.id == pelicula.id }
-                            //este siguiente paso tuve que preguntarle a la ia, y aun así me cuesta entenderlo, al darle me gusta a una corazón, la propiedad val esFavorita y no puede cambiar directamente, la clave es crear una copia de la película con la variable esFavorita invertida, para tener una copia en true, y la coloco en la misma posicón sustituyendo a la vieja
-                            //en el caso de haber cliclado coherence, la pelicula con id = 2, y posición 1
-                            //peliculas[1] = copia de coherence con esFavorita = true
-                            peliculas[posicion] = pelicula.copy(esFavorita = !pelicula.esFavorita)
+                            onToggleFavorito(pelicula)
                         }
                     ) {
-                        Icon(
-                            //el corazon se rellena si la marcas como favorita
-                            imageVector = if (pelicula.esFavorita) Icons.Filled.Favorite
-                            else Icons.Outlined.FavoriteBorder,
+                        Icon( //imageVector contiene el dibujo, Icon es el componente que lo muestra en pantalla
+                            imageVector = if (pelicula.esFavorita) {
+                                Icons.Filled.Favorite
+                            } else {
+                                Icons.Outlined.FavoriteBorder
+                            },
                             contentDescription = stringResource(
-                                if (pelicula.esFavorita) R.string.catalogo_desmarcar_favorita
-                                else R.string.catalogo_marcar_favorita
+                                if (pelicula.esFavorita) {
+                                    R.string.catalogo_desmarcar_favorita
+                                } else {
+                                    R.string.catalogo_marcar_favorita
+                                }
                             ),
-                            //rojo del tema si es favorita, gris si no
-                            tint = if (pelicula.esFavorita) MaterialTheme.colorScheme.error
-                            else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (pelicula.esFavorita) {
+                                MaterialTheme.colorScheme.error
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            }
                         )
                     }
                 }
@@ -123,11 +110,26 @@ fun CatalogoScreen() {
     }
 }
 
-
+// El preview permite ver el catálogo en Android Studio sin ejecutar la aplicación.
+// Como CatalogoScreen recibe una lista, aquí también hay que pasarle una:
+// puede contener una, dos o las doce películas, según lo que queramos visualizar.
+// Esas películas son datos de ejemplo y no se añaden a la lista real de DAMFlixApp.
+// Al ejecutar la app, el catálogo recibe la lista real desde DAMFlixApp.
+// En el preview, onToggleFavorito = {} pasa una función vacía: no cambia favoritos.
 @Preview
 @Composable
 fun CatalogoScreenPreview() {
     DAMFlixTheme {
-        CatalogoScreen()
+        CatalogoScreen(
+            peliculas = listOf(
+                Pelicula(
+                    1,
+                    "Interstellar",
+                    "Christopher Nolan",
+                    2014
+                )
+            ),
+            onToggleFavorito = {}
+        )
     }
 }
