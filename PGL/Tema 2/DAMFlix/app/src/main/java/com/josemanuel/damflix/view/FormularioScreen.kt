@@ -57,7 +57,7 @@ fun FormularioScreen(modifier: Modifier = Modifier, onGuardar: (String, String, 
     //el botón "Guardar Película" debe permanecer deshabilitado si el título o director están vacíos
 
     //entonces creo una variable que diga si el formulario es válido o no, si el campo de titulo o director está vacío, no es válido
-    val formularioValido = titulo.isNotBlank() && director.isNotBlank()
+    val formularioValido = titulo.isNotBlank() && director.isNotBlank() && año.toIntOrNull() != null
 
     //toast necesita el context de android para mostrarse
     val context = LocalContext.current

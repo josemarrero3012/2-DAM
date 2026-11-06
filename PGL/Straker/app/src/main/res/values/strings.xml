@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Straker</string>
+    <string name="usuario_label">Nombre de usuario</string>
+    <string name="contraseña_label">Contraseña</string>
+</resources>

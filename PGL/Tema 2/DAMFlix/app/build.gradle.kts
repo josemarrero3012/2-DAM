@@ -56,4 +56,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     //navegación oficial de Jetpack Compose para la fase 4
     implementation("androidx.navigation:navigation-compose:2.10.2")
+    // para trabajar con la api nativa de sqlite no hace falta librerías de tercero, únicamente las dependencias oficiales de ViewModel e integración del ciclo de vida con Jetpack Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
 }
